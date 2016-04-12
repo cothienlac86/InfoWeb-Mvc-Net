@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Quản lý Tin chính chủ";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+@model InfoWebApp.Models.PrivateNewsModel
+<div class="search-field">
+    @using (Html.BeginForm("Index", "PrivateNews", "PrivateNews", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="inputSearch">Tìm kiếm</label>
+                    <div class="form-inline">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control",@style="width:75%", @placeholder = "Nhập tiêu đề bài đăng"})
+                        <button type="submit" class="btn btn-green" id="btnSearch">Tìm kiếm nhanh</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Tỉnh thành</label>
+                    @{
+                            var listArea = (List<InfoWebApp.Models.AreaModel>)ViewBag.listArea;
+                            var listAreaChild = (List<InfoWebApp.Models.AreaModel>)ViewBag.listAreaChild;
+                    }
+                    @Html.DropDownListFor(m => m.TinhThanhId, new SelectList(listArea, "Id", "Name"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Địa điểm</label>
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Nhập địa điểm", @maxlength = "300" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Giá tiền</label>
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @placeholder = "Nhập khoảng giá", @maxlength = "300" })
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Loại tin</label>
+                    @{
+                            var listStatus = (List<System.Web.UI.WebControls.ListItem>)ViewBag.listStatus;
+                    }
+                    @Html.DropDownListFor(m => m.Status, new SelectList(listStatus, "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Từ ngày</label>
+                    <div class='input-group date' id='datetimepicker1'>
+                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control" })
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar" data-date-icon="icon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inputSearch">Đến ngày</label>
+                    <div class='input-group date' id='datetimepicker2'>
+                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control" })
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar" data-date-icon="icon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-green" id="btnSearch">Lưu tất cả</button>
+        <button type="button" class="btn btn-green" id="btnSearch">Tin spam - Hủy bỏ</button>
+        <button type="button" class="btn btn-green" id="btnSearch">Chuyển vào thùng rác</button>
+    </div>
+</div>
+<!-- Main component for a primary marketing message or call to action -->
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:40px;">STT</th>
+                    <th style="width:20px;">
+                        <input type="checkbox" />
+                    </th>
+                    <th>Tiêu đề</th>
+                    <th style="width:150px;">Giá</th>
+                    <th style="width:100px;">SĐT</th>
+                    <th>Loại tin</th>
+                    <th class="spam">Tin spam</th>
+                    <th style="width:85px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.listPrivateNews) { 
+                <tr>
+                    <th class="stt">@item.Number</th>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <td>@Html.ActionLink(item.Title, "Detail", new { @id = item.Id })</td>
+                    <td>@item.Price</td>
+                    <td>@item.PhoneNumer</td>
+                    <td>
+                        @{
+                            var statusLbl = "Tin spam";
+                            if (item.Status == 1){
+                                statusLbl = "Tin đã lọc";
+                            }
+                            if (item.Status == 2){
+                                statusLbl = "Tin chưa lọc";
+                            }
+                        }
+                        @statusLbl
+                    </td>
+                    <td><span class="glyphicon glyphicon-flag" style="margin-left:25px;" aria-hidden="true"></span></td>
+                    <td>
+                        <span class="glyphicon glyphicon-floppy-save" style="margin-left:17px; margin-right:5px;" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </td>
+                </tr>   
+            }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4" style="position:relative;">
+        <ul class="pagination" style="margin:0; position:absolute; right: 15px;">
+            <li>
+                @{
+                    int index = 1;
+                    int pageEnd = ViewBag.CurrentPage + 5;
+                    if (ViewBag.CurrentPage > 4)
+                    {
+                        index = ViewBag.CurrentPage - 4;
+                    }
+                }
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    @Html.ActionLink("«", "Index", new { @page = (ViewBag.CurrentPage - 1) })
+                }
+                else
+                {
+                    <span aria-hidden="true" class="hidden-link">&laquo;</span>
+                }
+            </li>
+            @for (int i = index; i <= ViewBag.NumberOfPages; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {
+                    <li><a href="#" class="hidden-link">@i</a></li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink(i.ToString(), "Index", new { @page = i })
+                    </li>
+                }
+                if (i > pageEnd)
+                {
+                    break;
+                }
+            }
+            <li>
+                @if (ViewBag.CurrentPage < ViewBag.NumberOfPages)
+                {
+                    @Html.ActionLink("»", "Index", new { @page = (ViewBag.CurrentPage + 1) })
+                }
+                else
+                {
+                    <span aria-hidden="true" class="hidden-link">&raquo;</span>
+                }
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker();
+    });
+</script>
+}

@@ -1,0 +1,16 @@
+D:\Project\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.exe.config
+D:\Project\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.exe
+D:\Project\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.pdb
+D:\Project\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.exe
+D:\Project\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.pdb
+D:\Project\WebProject\GetInfoWeb\bin\Debug\HtmlAgilityPack.dll
+D:\Project\WebProject\GetInfoWeb\bin\Debug\HtmlAgilityPack.pdb
+D:\Project\WebProject\GetInfoWeb\bin\Debug\HtmlAgilityPack.xml
+D:\Project\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.exe.config
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.exe
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\bin\Debug\GetInfoWeb.pdb
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.exe
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.pdb
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\bin\Debug\App.config
+C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.csprojResolveAssemblyReference.cache

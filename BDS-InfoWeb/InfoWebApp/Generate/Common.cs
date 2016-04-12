@@ -1,0 +1,109 @@
+﻿using InfoWebApp.Entity;
+using InfoWebApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InfoWebApp.Generate
+{
+    /// <summary>
+    /// Common function
+    /// </summary>
+    public static class Common
+    {
+        public static StringBuilder ListMenuSelectTag = new StringBuilder();
+        public static StringBuilder ListMenuUlTag = new StringBuilder();
+        public static List<MenuModels> ListMenuBasic = new List<MenuModels>();
+
+        /// <summary>
+        /// Get list tree
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public static List<Tree> GetTree(List<MenuDb> list, int parent)
+        {
+            return list.Where(x => x.ParentId == parent).Select(x => new Tree
+            {
+                Id = x.Id,
+                Name = x.Name,
+                List = GetTree(list, x.Id)
+            }).ToList();
+        }
+
+        /// <summary>
+        /// Get list link for edit menu
+        /// </summary>
+        /// <param name="list"></param>
+        public static void GetMenuList(List<Tree> list)
+        {
+            foreach (var item in list)
+	        {
+                ListMenuBasic.Add(new MenuModels { 
+                    Name = item.Name,
+                    Id = item.Id
+                });
+                if (item.List.Count > 0) {
+                    GetMenuList(item.List);
+                }
+	        }
+        }
+
+        /// <summary>
+        /// Get menu with option for select tag
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="source"></param>
+        public static void GetMenuSelectTag(List<Tree> list) {
+            foreach (var item in list)
+            {
+                if (item.List.Count > 0) {
+                    ListMenuSelectTag.AppendLine("<optgroup label='"+item.Name+"'>");
+                    GetMenuSelectTag(item.List);
+                    ListMenuSelectTag.AppendLine("</optgroup>");
+                } else {
+                    ListMenuSelectTag.AppendLine("<option value='" + item.Id + "'>" + item.Name + "</option>");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get menu with ul,li for ul tag
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="source"></param>
+        public static void GetMenuUlTag(List<Tree> list, int source = 0) {
+            if(source == 0)
+                ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
+            else
+                ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");
+            var loop = 1;
+            foreach (var item in list)
+            {
+                if (item.List.Count > 0)
+                {
+                    ListMenuUlTag.AppendLine("<li id='" + item.Id + "' class='dropdown' >");
+                    ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"+item.Name+"<span class='caret'></span></a>");
+                }
+                else 
+                {
+                    ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
+                    ListMenuUlTag.AppendLine("<a href='/News/ShowPost/"+item.Id+"'>"+item.Name+"</a>");
+                    if(loop < list.Count)
+                        ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
+                }
+                
+                if (item.List.Count > 0)
+                {
+                    GetMenuUlTag(item.List, 1);
+                }
+                ListMenuUlTag.AppendLine("</li>");
+                loop++;
+            }
+            ListMenuUlTag.AppendLine("</ul>");
+        }
+    }
+}

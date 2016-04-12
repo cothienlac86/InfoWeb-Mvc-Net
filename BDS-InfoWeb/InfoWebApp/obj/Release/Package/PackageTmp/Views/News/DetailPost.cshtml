@@ -1,0 +1,29 @@
+﻿@model InfoWebApp.Models.NewsModels
+
+@{
+    ViewBag.Title = "Tin bài chi tiết - " + @Model.Title;
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading"><p>Chuyên mục: @Html.ActionLink(Model.MenuName,"MenuDetail","Home",new{@Id=Model.Id },null)</p> <b>@Model.Title</b></div>
+            <div class="panel-body">
+                @Html.Raw(Model.NewsContent.Replace(Environment.NewLine, "<br/>"))
+            </div>
+            <div class="panel-footer">
+                <p>Giá: @Model.Price VNĐ</p>
+                <p>Địa chỉ: @Model.Address</p>
+                <p>Diện tích: @Model.Dientich m2</p>
+                <p>Số điện thoại: @Model.PhoneNumber</p>
+                <p>Ngày đăng tin: @Model.Datetime.ToString("dd/MM/yyyy")</p>
+                @if (Request.QueryString["menuId"]!=null) { 
+                    <a class="btn btn-default btn-green" href="/News/ShowPost/@Request.QueryString["menuId"]" role="button"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Quay lại chuyên mục</a>
+                }else { 
+                    <a class="btn btn-default btn-green" href="/News/MyPost/" role="button"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Quay lại chuyên mục</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

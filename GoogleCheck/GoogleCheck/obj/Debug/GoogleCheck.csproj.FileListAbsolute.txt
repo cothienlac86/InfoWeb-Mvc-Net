@@ -1,0 +1,8 @@
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\bin\Debug\App.config
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe.config
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.pdb
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\bin\Debug\SRVTextToImage.dll
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.csprojResolveAssemblyReference.cache

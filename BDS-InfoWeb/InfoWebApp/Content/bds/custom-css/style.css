@@ -1,0 +1,165 @@
+.navbar-green{
+	background-color:#006B15;
+	border-color: #e7e7e7;
+}
+
+.navbar-green a{
+	color:#fff;
+	text-decoration:none;
+}
+
+.navbar-green .navbar-nav>.active>a {
+	color: #fff;
+    background-color: #457D28;
+}
+
+.navbar-green .navbar-nav>.createpost>a {
+	color: #fff;
+    background-color: #f90;
+}
+
+.navbar-green .navbar-nav>.active>a:focus{
+	color: #fff;
+    background-color: #457D28;
+}
+.navbar-green .navbar-nav>.active>a:hover{
+	color: #fff;
+    background-color: #457D28;
+}
+
+.nav>li>a:focus, .nav>li>a:hover{
+	color: #fff;
+    background-color: #457D28;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+	color: #fff;
+    background-color: #457D28;
+}
+
+.navbar-green .navbar-toggle:focus, .navbar-green .navbar-toggle:hover{
+	background-color: #457D28;
+}
+
+.navbar-toggle .icon-bar {
+    border-color: #fff;
+	background-color: #fff;
+}
+
+.dropdown-menu{
+	background-color: #457D28;
+}
+
+.dropdown-menu>li>a{
+	color:#fff;
+}
+
+.dropdown-menu>li>a:hover{
+	color:#fff;
+	background-color: #348609;
+}
+
+.btn-green {
+    color: #fff;
+    background-color: #006B15;
+    border-color: #457D28;
+}
+
+.btn-green:hover {
+    color: #fff;
+    background-color: #457D28;
+    border-color: #457D28;
+}
+
+.btn-yellow {
+    color: #fff;
+    background-color: #f90;
+    border-color: #f90;
+}
+
+.btn-yellow:hover {
+    color: #fff;
+    background-color: #E08A0A;
+    border-color: #E08A0A;
+}
+
+.btn-detail {
+    color: #006B15;
+	border-color: #457D28;
+}
+
+.btn-detail:hover {
+    color: #fff;
+	background-color: #457D28;
+	border-color: #457D28;
+}
+
+.jumbotron{
+	padding-bottom:20px;
+	padding-top: 20px;
+}
+
+footer{
+	height:100px;
+	padding-top:40px;
+}
+
+.search-field{
+	border:1px solid #eee;
+	padding:20px;
+	background-color:#eee;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+
+.clear{
+	clear:both;
+}
+
+#inputSearch{
+	width:75%;
+}
+
+.addSearchWidth{
+	margin-top:20px;
+}
+
+.table{
+	margin-bottom:10px;
+}
+
+.stt{
+	text-align:center;
+}
+
+.spam{
+	width:85px;
+}
+
+wr{
+	color:red;
+}
+
+.margin-bottom-15{
+	margin-bottom:15px;
+}
+
+.margin-top-20{
+	margin-top:20px;
+}
+
+.field-validation-error {
+    color:red;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    vertical-align:middle;
+}
+
+.hidden-link {
+    color:#ccc !important;
+}

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Danh sách menu";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading"><b>Quản lý menu</b></div>
+            <div class="panel-body">
+                <div class="col-md-5">
+                    <a class="btn btn-default btn-green" href="/Home/CreateMenu/" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Thêm menu</a>
+                </div>
+                <div class="col-md-12 margin-top-20">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">STT</th>
+                                <th>Tên</th>
+                                <th style="width:85px;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        @{
+                            var listMenu = (List<InfoWebApp.Models.MenuModels>)ViewBag.listMenuBasic;
+                            var number = 1;}
+                            @foreach (var item in listMenu)
+                            {   
+                                <tbody>
+                                    <tr>
+                                        <th class="stt">@number</th>
+                                        <td>@Html.ActionLink(item.Name,"EditMenu","Home",new{ Id=item.Id},null)</td>
+                                        <td>
+                                            <span val="@item.Id" class="trashMenu glyphicon glyphicon-trash" style="cursor:pointer; margin-left:25px; margin-right:5px;" aria-hidden="true" aria-hidden="true"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            number++;    
+                            }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(".trashMenu").click(function () {
+            if (confirm("Bạn có chắc muốn xóa menu này?")) {
+                var host = "http://" + window.location.host;
+                $.ajax({
+                    url: host + "/Home/DeleteMenu",
+                    type: "POST",
+                    data: { Id: $(this).attr("val") },
+                    success: function (data) {
+                        alert("Xóa menu thành công!");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Có vấn đề trong quá trình kết nối server. Vui lòng thử lại!");
+                    }
+                });
+            } else {
+                alert("No");
+            }
+        });
+    </script>
+}

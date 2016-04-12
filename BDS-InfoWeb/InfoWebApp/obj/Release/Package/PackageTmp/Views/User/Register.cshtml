@@ -1,0 +1,66 @@
+﻿<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@model InfoWebApp.Models.RegisterUserModel
+@{
+    ViewBag.Title = "Đăng ký thành viên";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">Đăng ký thành viên</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Register", "User", "Register", FormMethod.Post)) {
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Họ và tên</label>
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Nhập họ và tên", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.FullName)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Số điện thoại *</label>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Nhập số điện thoại", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nhập địa chỉ email", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Địa chỉ</label>
+                            @Html.TextAreaFor(m => m.Address, new { @rows = "5", @class = "form-control", @placeholder = "Nhập địa chỉ" })
+                            @Html.ValidationMessageFor(m => m.Address)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Mật khẩu *</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nhập lại mật khẩu *</label>
+                            @Html.PasswordFor(m => m.RePassword, new { @class = "form-control", @placeholder = "Nhập lại mật khẩu", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.RePassword)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mã xác thực *</label>
+                            <input type="text" class="form-control" placeholder="Nhập mã xác thực" name="CaptchaText" id="CaptchaText" value="@ViewBag.CaptchaText" />
+                            @Html.ValidationMessage("CaptchaText")
+                        </div>
+                        <div class="form-group">
+                            <img src="@Url.Action("GetCaptchaImage","News")" style="height:34px;" />
+                        </div>
+                        <div class="form-group">
+                            <label>Bấm vào "Hoàn tất đăng ký" nghĩa là bạn đã đọc và đồng ý với các <a href="#"> quy định</a> của website.</label>
+                        </div>
+                        <input class="btn btn-green" type="submit" value="Hoàn tất đăng ký">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

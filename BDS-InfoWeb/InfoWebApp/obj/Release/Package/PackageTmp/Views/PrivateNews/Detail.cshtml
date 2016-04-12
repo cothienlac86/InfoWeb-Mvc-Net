@@ -1,0 +1,24 @@
+﻿@model InfoWebApp.Models.PrivateNewsModel
+@{
+    ViewBag.Title = "Chi tiết tin chính chủ - " + Model.Title;
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-warning">
+            <div class="panel-heading"><p>Chuyên mục: <a href="/PrivateNews/">Tin chính chủ</a></p> <b>@Model.Title</b></div>
+            <div class="panel-body">
+                @Html.Raw(Model.NewsContent.Replace(Environment.NewLine, "<br/>"))
+            </div>
+            <div class="panel-footer">
+                <p>Giá: @Model.Price</p>
+                <p>Địa chỉ: @Model.Address</p>
+                <p>Diện tích: 80m2</p>
+                <p>Số điện thoại: @Model.PhoneNumer</p>
+                <p>Ngày đăng tin: @Model.Datetime</p>
+                <a class="btn btn-default btn-yellow" href="/PrivateNews" role="button"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Quay lại tin chính chủ</a>
+            </div>
+        </div>
+    </div>
+</div>

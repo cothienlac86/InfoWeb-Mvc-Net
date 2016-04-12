@@ -1,0 +1,48 @@
+﻿@model InfoWebApp.Models.MenuModels
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@{
+    ViewBag.Title = "Thêm mới menu";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">Thêm mới menu</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("CreateMenu", "Home", "CreateMenu", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputSearch">Tên menu *</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập tên menu", @maxlength = "40" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Menu Cha</label>
+                            @{
+                                var listParentMenu = (List<InfoWebApp.Models.MenuModels>)ViewBag.ListParentMenu;
+                            }
+                            @Html.DropDownListFor(m => m.ParentId, new SelectList(listParentMenu,"Id", "Name"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputSearch">Mô tả</label>
+                            @Html.TextAreaFor(m => m.Description, new { @row = "2", @maxlength = "1000", @class = "form-control", @placeholder = "Nhập mô tả về chức năng menu" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <input class="btn btn-green" type="submit" value="Tạo menu">
+                        <a class="btn btn-default btn-green" href="/Home/Menu/" role="button"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Quản lý menu</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

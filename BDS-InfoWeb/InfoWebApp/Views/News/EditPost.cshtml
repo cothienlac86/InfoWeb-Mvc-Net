@@ -1,0 +1,154 @@
+﻿<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@model InfoWebApp.Models.NewsModels
+@{
+    ViewBag.Title = "Chỉnh sửa bài viết";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @{
+            var strMessage = (String)Session["AddNewsSuccessMessage"];
+            Session.Remove("AddNewsSuccessMessage");
+        }
+        @if (!String.IsNullOrEmpty(strMessage))
+        {
+            <div class="alert alert-success">
+                <strong>@strMessage</strong>
+            </div>
+        }
+        <div class="panel panel-success">
+            <div class="panel-heading">Sửa tin rao vặt bất động sản</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("EditPost", "News", "EditPost", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputSearch">Tiêu đề *</label>
+                            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Nhập tiêu đề bài đăng", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.Title)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Tỉnh thành *</label>
+                            @{
+                    var listArea = (List<InfoWebApp.Models.AreaModel>)ViewBag.listArea;
+                    var listAreaChild = (List<InfoWebApp.Models.AreaModel>)ViewBag.listAreaChild;
+                            }
+                            @Html.DropDownListFor(m => m.TinhThanhId, new SelectList(listArea, "Id", "Name"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TinhThanhId)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Quận huyện *</label>
+                            @Html.DropDownListFor(m => m.QuanHuyenId, new SelectList(listAreaChild, "Id", "Name"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.QuanHuyenId)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Địa chỉ chi tiết *</label>
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Nhập số nhà, tên đường,...", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.Address)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputSearch">Chọn chuyên mục *</label>
+                            <select class="form-control" id="MenuId" name="MenuId">
+                                <option value="0">--Chọn chuyên mục--</option>
+                                @Html.Raw(Session["UIMenu"].ToString())
+                            </select>
+                            @Html.ValidationMessageFor(m => m.MenuId)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Diện tích *</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                @Html.TextBoxFor(m => m.Dientich, new { @class = "form-control", @placeholder = "Nhập diện tích", @maxlength = "40" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon">m2</span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Dientich)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Giá tiền *</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @placeholder = "Nhập giá tiền", @maxlength = "40" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon">VNĐ</span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Price)
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Số điện thoại *</label>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Nhập số điện thoại", @maxlength = "40" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="inputSearch">Nội dung *</label>
+                            @Html.TextAreaFor(m => m.NewsContent, new { @rows = "10", @class = "form-control", @placeholder = "Nhập nội dung" })
+                            @Html.ValidationMessageFor(m => m.NewsContent)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Nhập mã xác thực *" name="CaptchaText" id="CaptchaText" value="@ViewBag.CaptchaText" />
+                            @Html.ValidationMessage("CaptchaText")
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <img src="@Url.Action("GetCaptchaImage","News")" style="height:34px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-8"></div>
+                    <div class="col-md-12">
+                        <input class="btn btn-green" type="submit" value="Sửa tin">
+                    </div>
+                    @Html.HiddenFor(m => m.MenuIdHidden)
+                    @Html.HiddenFor(m=>m.UserId)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#MenuId").val($("#MenuIdHidden").val());
+        });
+
+        $("#MenuId").on("change", function () {
+            $("#MenuIdHidden").val($(this).val());
+        });
+
+        $("#TinhThanhId").on("change", function () {
+            if ($(this).val() != "0") {
+                GetTinhthanh($(this).val());
+            }
+        });
+
+        function GetTinhthanh(Id) {
+            var host = "http://" + window.location.host;
+            $.ajax({
+                url: host + "/News/GetNewsById",
+                type: "POST",
+                data: { Id: Id },
+                success: function (data) {
+                    var html = '';
+                    for (var i = 0, len = data.length; i < len; ++i) {
+                        html = html + '<option value="' + data[i].Id + '">' + data[i].Name + '</option>';
+                    }
+                    $("#QuanHuyenId").html(html);
+                },
+                error: function () {
+                    alert("Có vấn đề trong quá trình kết nối server. Vui lòng thử lại!");
+
+                }
+            });
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

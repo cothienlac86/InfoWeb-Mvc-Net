@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Đăng ký thành công";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="jumbotron">
+    <h2>Đăng ký thành công!</h2>
+    <p>
+        Cảm ơn bạn đã đăng ký website @Html.ActionLink("BDSChinhchu.com.vn","Index","Home"). Chúng tôi sẽ xác nhận tài khoản và liên hệ với bạn trong giây lát.
+    </p>
+    <p>
+        @Html.ActionLink("Quay về trang chủ »", "Index", "Home",null, new { @class = "btn btn-green", @role="button" })
+    </p>
+</div>

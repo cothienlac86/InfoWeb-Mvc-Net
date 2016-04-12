@@ -1,0 +1,46 @@
+﻿<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@model InfoWebApp.Models.LoginUserModel
+@{
+    ViewBag.Title = "Đăng nhập thành viên";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">Thành viên đăng nhập</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Login", "User", "Login", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Số điện thoại *</label>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Nhập số điện thoại", @maxlength = "40" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mật khẩu *</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu", @maxlength = "300" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m=>m.Remember) Ghi nhớ tài khoản.
+                            </label>
+                            @Html.ActionLink("Quên mật khẩu?", "ForgetPassword", "User")
+                        </div>
+                        <div class="form-group">
+                            <label for="">Bạn chưa có tài khoản?</label>
+                            @Html.ActionLink("Đăng ký ngay","Register","User")
+                        </div>
+                        <input class="btn btn-green" type="submit" value="Đăng nhập">
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

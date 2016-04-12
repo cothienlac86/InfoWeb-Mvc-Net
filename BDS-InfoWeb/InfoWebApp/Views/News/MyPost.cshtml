@@ -1,0 +1,179 @@
+﻿<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@model InfoWebApp.Models.MenuListModels
+
+@{
+    ViewBag.Title = "Bài đã đăng của tôi";
+    Layout = "~/Views/Shared/_LayoutBDS.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("MyPost", "News", "MyPost", FormMethod.Post))
+        {
+            <div class="panel panel-success">
+                <div class="panel-heading">Tin đã đăng</div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputSearch">Tìm kiếm</label>
+                            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Nhập tiêu đề bài đăng", @maxlength = "300" })
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Theo giá</label>
+                            @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @placeholder = "Nhập giá tiền", @maxlength = "40" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputSearch">Tỉnh thành</label>
+                            @{
+            var listArea = (List<InfoWebApp.Models.AreaModel>)ViewBag.listArea;
+            var listAreaChild = (List<InfoWebApp.Models.AreaModel>)ViewBag.listAreaChild;
+                            }
+                            @Html.DropDownListFor(m => m.TinhThanhId, new SelectList(listArea, "Id", "Name"), new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSearch">Quận huyện</label>
+                            @Html.DropDownListFor(m => m.QuanHuyenId, new SelectList(listAreaChild, "Id", "Name"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-green" id="btnSearch">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-12 margin-top-20">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px;">STT</th>
+                                    <th>Tiêu đề</th>
+                                    <th style="width:150px;">Giá</th>
+                                    <th>Chuyên mục</th>
+                                    <th>Ngày đăng</th>
+                                    <th style="width:85px;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.newsModel)
+                                {
+                                    <tr>
+                                        <th class="stt">@item.Number</th>
+                                        <td>@Html.ActionLink(item.Title, "DetailPost", new { @id = item.Id })</td>
+                                        <td>@item.Price đ</td>
+                                        <td>@item.MenuName</td>
+                                        <td>@item.Datetime.ToShortDateString()</td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-edit editPost" val="@item.Id" style="cursor:pointer; margin-left:17px; margin-right:5px;" aria-hidden="true"></span>
+                                            <span class="glyphicon glyphicon-trash trashPost" val="@item.Id" style="cursor:pointer;" aria-hidden="true"></span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <ul class="pagination" style="margin:0;">
+                            <li>
+                                @if (ViewBag.CurrentPage > 1)
+                                {
+                                    @Html.ActionLink("«", "MyPost", new { @id = ViewBag.MenuId, @page = (ViewBag.CurrentPage - 1) })
+                                }
+                                else
+                                {
+                                    <span aria-hidden="true" class="hidden-link">&laquo;</span>
+                                }
+                            </li>
+                            @for (int i = 1; i <= ViewBag.NumberOfPages; i++)
+                            {
+                                if (i == ViewBag.CurrentPage)
+                                {
+                                    <li><a href="#" class="hidden-link">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "MyPost", new { @id = ViewBag.MenuId, @page = i })
+                                    </li>
+                                }
+                            }
+                            <li>
+                                @if (ViewBag.CurrentPage < ViewBag.NumberOfPages)
+                                {
+                                    @Html.ActionLink("»", "MyPost", new { @id = ViewBag.MenuId, @page = (ViewBag.CurrentPage + 1) })
+                                }
+                                else
+                                {
+                                    <span aria-hidden="true" class="hidden-link">&raquo;</span>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.MenuId)
+        }
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $("#TinhThanhId").on("change", function () {
+            if ($(this).val() != "0") {
+                GetTinhthanh($(this).val());
+            }
+        });
+
+        $(".trashPost").on("click", function () {
+            if (confirm("Bạn có chắc muốn xóa bài viết này?")) {
+                var id = $(this).attr("val");
+                XoaBaiViet(id);
+            }
+        });
+
+        $(".editPost").on("click", function () {
+            var id = $(this).attr("val");
+            SuaBaiViet(id);
+        });
+
+        function GetTinhthanh(Id) {
+            var host = "http://" + window.location.host;
+            $.ajax({
+                url: host + "/News/GetNewsById",
+                type: "POST",
+                data: { Id: Id },
+                success: function (data) {
+                    var html = '';
+                    for (var i = 0, len = data.length; i < len; ++i) {
+                        html = html + '<option value="' + data[i].Id + '">' + data[i].Name + '</option>';
+                    }
+                    $("#QuanHuyenId").html(html);
+                },
+                error: function () {
+                    alert("Có vấn đề trong quá trình kết nối server. Vui lòng thử lại!");
+
+                }
+            });
+        }
+
+        function SuaBaiViet(Id) {
+            var host = "http://" + window.location.host;
+            window.location.replace(host + "/News/EditPost/" + Id);
+        }
+
+        function XoaBaiViet(Id) {
+            var host = "http://" + window.location.host;
+            $.ajax({
+                url: host + "/News/DeletePost",
+                type: "POST",
+                data: { Id: Id },
+                success: function (data) {
+                    alert("Xóa thành công");
+                    location.reload();
+                },
+                error: function () {
+                    alert("Có vấn đề trong quá trình kết nối server. Vui lòng thử lại!");
+                }
+            });
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
