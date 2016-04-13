@@ -105,5 +105,43 @@ namespace InfoWebApp.Generate
             }
             ListMenuUlTag.AppendLine("</ul>");
         }
-    }
+
+		/// <summary>
+		/// Get menu with ul,li for ul tag
+		/// </summary>
+		/// <param name="list"></param>
+		/// <param name="source"></param>
+		public static void GetNewMenuUlTag(List<Tree> list, int source = 0)
+		{
+			var loop = 0;
+			if (source == 0)
+				ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
+			else
+				ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");
+			
+			foreach (var item in list)
+			{
+				if (item.List.Count > 0)
+				{
+					ListMenuUlTag.AppendLine("<li id='" + item.Id + "' class='dropdown' >");
+					ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" + item.Name + "<span class='caret'></span></a>");
+				}
+				else
+				{
+					ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
+					ListMenuUlTag.AppendLine("<a href='/News/ShowPost/" + item.Id + "'>" + item.Name + "</a>");
+					if (loop < list.Count)
+						ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
+				}
+
+				if (item.List.Count > 0 )
+				{
+					GetMenuUlTag(item.List, 1);
+				}
+				ListMenuUlTag.AppendLine("</li>");
+				loop++;
+			}
+			ListMenuUlTag.AppendLine("</ul>");
+		}
+	}
 }
