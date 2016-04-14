@@ -84,7 +84,9 @@ namespace InfoWebApp.Generate
         public static void GetMenuUlTag(List<Tree> list, int source = 0)
         {
             if (source == 0)
+            {
                 ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
+            }                
             else
             {
                 ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");

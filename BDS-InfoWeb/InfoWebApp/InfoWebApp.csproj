@@ -256,11 +256,15 @@
     <Content Include="Content\bds\assets\brand\bootstrap-outline.svg" />
     <Content Include="Content\bds\assets\brand\bootstrap-punchout.svg" />
     <Content Include="Content\bds\assets\brand\bootstrap-solid.svg" />
+    <Content Include="Content\bds\assets\css\demo.css" />
     <Content Include="Content\bds\assets\css\docs.min.css" />
+    <Content Include="Content\bds\assets\css\header-basic-light.css" />
+    <Content Include="Content\bds\assets\css\header-user-dropdown.css" />
     <Content Include="Content\bds\assets\css\ie10-viewport-bug-workaround.css" />
     <Content Include="Content\bds\assets\css\src\docs.css" />
     <Content Include="Content\bds\assets\css\src\pygments-manni.css" />
     <Content Include="Content\bds\assets\flash\ZeroClipboard.swf" />
+    <Content Include="Content\bds\assets\img\2.jpg" />
     <Content Include="Content\bds\assets\img\components.png" />
     <Content Include="Content\bds\assets\img\devices.png" />
     <Content Include="Content\bds\assets\img\expo-lyft.jpg" />
