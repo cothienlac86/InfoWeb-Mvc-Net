@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoWebApp", "InfoWebApp.csproj", "{1E1DF02E-5504-4F8D-AC0F-4B7BECFB0762}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetInfoWeb", "..\..\GetInfoWeb\GetInfoWeb.csproj", "{80AB0789-2345-4B99-9072-3D099137946E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleCheck", "..\..\GoogleCheck\GoogleCheck\GoogleCheck.csproj", "{4679A979-5F76-4B3A-A6EF-079CD89EB875}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1E1DF02E-5504-4F8D-AC0F-4B7BECFB0762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E1DF02E-5504-4F8D-AC0F-4B7BECFB0762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E1DF02E-5504-4F8D-AC0F-4B7BECFB0762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80AB0789-2345-4B99-9072-3D099137946E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80AB0789-2345-4B99-9072-3D099137946E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80AB0789-2345-4B99-9072-3D099137946E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80AB0789-2345-4B99-9072-3D099137946E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4679A979-5F76-4B3A-A6EF-079CD89EB875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4679A979-5F76-4B3A-A6EF-079CD89EB875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4679A979-5F76-4B3A-A6EF-079CD89EB875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4679A979-5F76-4B3A-A6EF-079CD89EB875}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

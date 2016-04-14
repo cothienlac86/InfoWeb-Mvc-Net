@@ -30,7 +30,7 @@ namespace InfoWebApp.Generate
             {
                 Id = x.Id,
                 Name = x.Name,
-                List = GetTree(list, x.Id)
+                List = ((x.Id == 1) ? new List<Tree>() : GetTree(list, x.Id))
             }).ToList();
         }
 
@@ -41,15 +41,17 @@ namespace InfoWebApp.Generate
         public static void GetMenuList(List<Tree> list)
         {
             foreach (var item in list)
-	        {
-                ListMenuBasic.Add(new MenuModels { 
+            {
+                ListMenuBasic.Add(new MenuModels
+                {
                     Name = item.Name,
                     Id = item.Id
                 });
-                if (item.List.Count > 0) {
+                if (item.List.Count > 0)
+                {
                     GetMenuList(item.List);
                 }
-	        }
+            }
         }
 
         /// <summary>
@@ -57,46 +59,53 @@ namespace InfoWebApp.Generate
         /// </summary>
         /// <param name="list"></param>
         /// <param name="source"></param>
-        public static void GetMenuSelectTag(List<Tree> list) {
+        public static void GetMenuSelectTag(List<Tree> list)
+        {
             foreach (var item in list)
             {
-                if (item.List.Count > 0) {
-                    ListMenuSelectTag.AppendLine("<optgroup label='"+item.Name+"'>");
+                if (item.Id == 1) continue;
+                if (item.List.Count > 0)
+                {
+                    ListMenuSelectTag.AppendLine("<optgroup label='" + item.Name + "'>");
                     GetMenuSelectTag(item.List);
                     ListMenuSelectTag.AppendLine("</optgroup>");
-                } else {
+                }
+                else
+                {
                     ListMenuSelectTag.AppendLine("<option value='" + item.Id + "'>" + item.Name + "</option>");
                 }
             }
         }
-
         /// <summary>
         /// Get menu with ul,li for ul tag
         /// </summary>
         /// <param name="list"></param>
         /// <param name="source"></param>
-        public static void GetMenuUlTag(List<Tree> list, int source = 0) {
-            if(source == 0)
+        public static void GetMenuUlTag(List<Tree> list, int source = 0)
+        {
+            if (source == 0)
                 ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
             else
+            {
                 ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");
+            }
             var loop = 1;
             foreach (var item in list)
             {
                 if (item.List.Count > 0)
                 {
                     ListMenuUlTag.AppendLine("<li id='" + item.Id + "' class='dropdown' >");
-                    ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"+item.Name+"<span class='caret'></span></a>");
+                    ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" + item.Name + "<span class='caret'></span></a>");
                 }
-                else 
+                else
                 {
                     ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
-                    ListMenuUlTag.AppendLine("<a href='/News/ShowPost/"+item.Id+"'>"+item.Name+"</a>");
-                    if(loop < list.Count)
+                    ListMenuUlTag.AppendLine("<a href='/News/ShowPost/" + item.Id + "'>" + item.Name + "</a>");
+                    if (loop < list.Count)
                         ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
                 }
-                
-                if (item.List.Count > 0)
+
+                if (item.List.Count > 0 && item.Id != 1)
                 {
                     GetMenuUlTag(item.List, 1);
                 }
@@ -106,42 +115,53 @@ namespace InfoWebApp.Generate
             ListMenuUlTag.AppendLine("</ul>");
         }
 
-		/// <summary>
-		/// Get menu with ul,li for ul tag
-		/// </summary>
-		/// <param name="list"></param>
-		/// <param name="source"></param>
-		public static void GetNewMenuUlTag(List<Tree> list, int source = 0)
-		{
-			var loop = 0;
-			if (source == 0)
-				ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
-			else
-				ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");
-			
-			foreach (var item in list)
-			{
-				if (item.List.Count > 0)
-				{
-					ListMenuUlTag.AppendLine("<li id='" + item.Id + "' class='dropdown' >");
-					ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" + item.Name + "<span class='caret'></span></a>");
-				}
-				else
-				{
-					ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
-					ListMenuUlTag.AppendLine("<a href='/News/ShowPost/" + item.Id + "'>" + item.Name + "</a>");
-					if (loop < list.Count)
-						ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
-				}
+        /// <summary>
+        /// Get menu with ul,li for ul tag
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="source"></param>
+        public static void GetNewMenuUlTag(List<Tree> list, int source = 0)
+        {
+            var loop = 0;
+            if (source == 0)
+                ListMenuUlTag.AppendLine("<ul class='nav navbar-nav'>");
+            else
+            {
+                ListMenuUlTag.AppendLine("<ul class='dropdown-menu'>");
+            }
 
-				if (item.List.Count > 0 )
-				{
-					GetMenuUlTag(item.List, 1);
-				}
-				ListMenuUlTag.AppendLine("</li>");
-				loop++;
-			}
-			ListMenuUlTag.AppendLine("</ul>");
-		}
-	}
+
+            foreach (var item in list)
+            {
+                if (item.List.Count > 0)
+                {
+                    if (item.Id == 1)
+                    {
+                        ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
+                        ListMenuUlTag.AppendLine("<a href='/News/ShowPost/" + item.Id + "'>" + item.Name + "</a>");
+                    }
+                    else
+                    {
+                        ListMenuUlTag.AppendLine("<li id='" + item.Id + "' class='dropdown' >");
+                        ListMenuUlTag.AppendLine("<a href'#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" + item.Name + "<span class='caret'></span></a>");
+                    }
+                }
+                else
+                {
+                    ListMenuUlTag.AppendLine("<li id='" + item.Id + "' >");
+                    ListMenuUlTag.AppendLine("<a href='/News/ShowPost/" + item.Id + "'>" + item.Name + "</a>");
+                    if (loop < list.Count)
+                        ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
+                }
+
+                if (item.List.Count > 0)
+                {
+                    GetMenuUlTag(item.List, 1);
+                }
+                ListMenuUlTag.AppendLine("</li>");
+                loop++;
+            }
+            ListMenuUlTag.AppendLine("</ul>");
+        }
+    }
 }
