@@ -1,13 +1,6 @@
 ﻿using InfoWebApp.Entity;
 using InfoWebApp.Generate;
 using InfoWebApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace InfoWebApp.Controllers
@@ -16,7 +9,10 @@ namespace InfoWebApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            // Lay danh sach khu vuc
+            var area = new AreaDb();
+            ViewBag.areaList = area.GetAll();
+            // Lay danh sach chuyen muc            
             return View();
         }
 
@@ -47,17 +43,19 @@ namespace InfoWebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMenu(MenuModels menuModels) {
+        public ActionResult CreateMenu(MenuModels menuModels)
+        {
             var menuDb = new MenuDb();
             menuModels = menuDb.Add(menuModels);
             RefreshMenu();
             Session["AddMenuSuccessMessage"] = "Thêm menu thành công!";
-            return RedirectToAction("EditMenu", "Home", new { @Id = menuModels .Id});
+            return RedirectToAction("EditMenu", "Home", new { @Id = menuModels.Id });
         }
 
         [Authorize]
         [HttpGet]
-        public ViewResult EditMenu(int Id = 1) {
+        public ViewResult EditMenu(int Id = 1)
+        {
             //Get Parent Menu
             var menuDb = new MenuDb();
             ViewBag.ListParentMenu = menuDb.GetParentMenu();
@@ -69,7 +67,8 @@ namespace InfoWebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMenu(MenuModels menuModels) {
+        public ActionResult EditMenu(MenuModels menuModels)
+        {
             var menuDb = new MenuDb();
             menuDb.Update(menuModels);
             ViewBag.ListParentMenu = menuDb.GetParentMenu();
@@ -80,7 +79,8 @@ namespace InfoWebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult Menu(){
+        public ActionResult Menu()
+        {
             RefreshMenu();
             ViewBag.listMenuBasic = Common.ListMenuBasic;
             return View();
@@ -88,18 +88,20 @@ namespace InfoWebApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public JsonResult DeleteMenu(int Id) {
+        public JsonResult DeleteMenu(int Id)
+        {
             var id = Id;
             var menuDb = new MenuDb();
             menuDb.DeleteMenuById(Id);
             RefreshMenu();
             return Json("Delete complete", JsonRequestBehavior.AllowGet);
-        } 
+        }
 
         /// <summary>
         /// Refresh menu
         /// </summary>
-        private void RefreshMenu() {
+        private void RefreshMenu()
+        {
             var menuDb = new MenuDb();
             //Update menu again
             Common.ListMenuUlTag.Clear();

@@ -30,7 +30,23 @@ namespace InfoWebApp.Generate
             {
                 Id = x.Id,
                 Name = x.Name,
-                List = ((x.Id == 1) ? new List<Tree>() : GetTree(list, x.Id))
+                List = ((x.Id == 91) ? new List<Tree>() : GetTree(list, x.Id))
+            }).ToList();
+        }
+
+        /// <summary>
+        /// Get list tree
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public static List<Tree> GetTree4Cbo(List<MenuDb> list, int parent)
+        {
+            return list.Where(x => x.ParentId == parent).Select(x => new Tree
+            {
+                Id = x.Id,
+                Name = x.Name,
+                List = GetTree(list, x.Id)
             }).ToList();
         }
 

@@ -1,4 +1,7 @@
-﻿@{
+﻿<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+@model InfoWebApp.Models.AreaModel
+@{
     ViewBag.Title = "Trang chủ";
     Layout = "~/Views/Shared/_LayoutBDS.cshtml";
 }
@@ -9,22 +12,15 @@
         <div class="form-group" style="margin-bottom:0px !important;">
             <div class="row">
                 <div class="col-md-3 col-xs-12">
-                    <select class="form-control">
-                        <option selected>Toàn quốc</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-
-                </div>
+                    @{
+                        var areaList = (List<InfoWebApp.Models.AreaModel>)ViewBag.areaList;                        
+                    }
+                    @Html.DropDownListFor(m => m.Name, new SelectList(areaList, "Id", "Name"), new { @class = "form-control"})
+                </div>            
                 <div class="col-md-4 col-xs-12">
                     <select class="form-control">
-                        <option selected>Tất cả chuyên mục</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
+                        <option value="0">--Chọn chuyên mục--</option>
+                                  
                     </select>
                 </div>
                 <div class="col-md-5 col-xs-12 input-group">
@@ -36,14 +32,7 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table">
-            </table>
+            <table class="table"></table>
         </div>
     </div>
 </div>
-<!--
-<select>
-    @Html.Raw(ViewBag.TreeConvert)
-</select>
-@Html.Raw(ViewBag.UlConvert)
--->
