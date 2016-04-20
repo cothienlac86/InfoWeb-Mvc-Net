@@ -232,6 +232,44 @@ namespace InfoWebApp.Entity
             return list;
         }
 
+        public List<MenuModels> GetCategoryBDS(int id)
+        {
+            var listCategoriesBDS = new List<MenuModels>();           
+            var itemMain = new MenuModels();            
+            var _conn = new SqlConnection(ConfigurationManager.ConnectionStrings["InfoWebAppDbStr"].ConnectionString);
+            if (_conn.State == ConnectionState.Closed)
+                _conn.Open();
+            //Create command store procedure
+            var command = new SqlCommand("Get_ParentMenuById");
+            try
+            {
+                command.Connection = _conn;
+                SqlParameter menuParams = command.Parameters.AddWithValue("@Id", id);
+                command.CommandType = CommandType.StoredProcedure;               
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var item = new MenuModels();
+                        item.Name = reader.GetString(1);
+                        item.Id = reader.GetInt32(0);
+                        listCategoriesBDS.Add(item);                       
+                        GetCategoryBDS(item.Id);
+                    }                    
+                    reader.Close();
+                }                
+            }
+            catch (Exception)
+            {
+                command.Connection.Close();
+                command.Connection.Dispose();
+                throw;
+            }
+            return listCategoriesBDS;
+        }
+
         /// <summary>
         /// Get all item of parent menu
         /// </summary>

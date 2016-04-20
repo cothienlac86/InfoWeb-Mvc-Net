@@ -6,21 +6,21 @@
     Layout = "~/Views/Shared/_LayoutBDS.cshtml";
 }
 
-
 <div class="container-fluid">
     <div class="jumbotron">
         <div class="form-group" style="margin-bottom:0px !important;">
             <div class="row">
                 <div class="col-md-3 col-xs-12">
                     @{
-                        var areaList = (List<InfoWebApp.Models.AreaModel>)ViewBag.areaList;                        
+                        var areaList = (List<InfoWebApp.Models.AreaModel>)ViewBag.areaList;
+                        var categoryList = (string) ViewBag.categoryList;
                     }
                     @Html.DropDownListFor(m => m.Name, new SelectList(areaList, "Id", "Name"), new { @class = "form-control"})
                 </div>            
                 <div class="col-md-4 col-xs-12">
                     <select class="form-control">
-                        <option value="0">--Chọn chuyên mục--</option>
-                                  
+                        <option value="0">--Chọn chuyên mục--</option>                        
+                        @Html.Raw(categoryList)         
                     </select>
                 </div>
                 <div class="col-md-5 col-xs-12 input-group">

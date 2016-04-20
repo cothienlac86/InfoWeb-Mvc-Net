@@ -1,11 +1,8 @@
 ﻿using InfoWebApp.Entity;
 using InfoWebApp.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
 
 namespace InfoWebApp.Generate
 {
@@ -40,13 +37,13 @@ namespace InfoWebApp.Generate
         /// <param name="list"></param>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public static List<Tree> GetTree4Cbo(List<MenuDb> list, int parent)
+        public static List<Tree> GetTree4Cbo(List<MenuModels> list, int parent)
         {
             return list.Where(x => x.ParentId == parent).Select(x => new Tree
             {
                 Id = x.Id,
                 Name = x.Name,
-                List = GetTree(list, x.Id)
+                List = GetTree4Cbo(list, x.Id)
             }).ToList();
         }
 
@@ -79,7 +76,7 @@ namespace InfoWebApp.Generate
         {
             foreach (var item in list)
             {
-                if (item.Id == 1) continue;
+                if (item.Id == 91) continue;
                 if (item.List.Count > 0)
                 {
                     ListMenuSelectTag.AppendLine("<optgroup label='" + item.Name + "'>");
@@ -92,6 +89,31 @@ namespace InfoWebApp.Generate
                 }
             }
         }
+        /// <summary>
+        /// Get menu with option for select tag
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="source"></param>
+        public static string GetMenuSelectTag4Cbo(List<Tree> list)
+        {
+            StringBuilder menuTag = new StringBuilder();
+            foreach (var item in list)
+            {
+                if (item.List.Count > 0)
+                {
+                    // <option value="0">--Chọn chuyên mục--</option>
+                    menuTag.AppendLine("<option value='" +item.Id +"'>"+ item.Name + "</option>");
+                    GetMenuSelectTag4Cbo(item.List);
+                    menuTag.AppendLine("</option>");
+                }
+                else
+                {
+                    menuTag.AppendLine("<option value='" + item.Id + "'>" + item.Name + "</option>");
+                }                
+            }
+            return menuTag.ToString();
+        }
+
         /// <summary>
         /// Get menu with ul,li for ul tag
         /// </summary>
@@ -123,9 +145,9 @@ namespace InfoWebApp.Generate
                         ListMenuUlTag.AppendLine("<li role='separator' class='divider'></li>");
                 }
 
-                if (item.List.Count > 0 && item.Id != 1)
+                if (item.List.Count > 0 && item.Id != 91)
                 {
-                    GetMenuUlTag(item.List, 1);
+                    GetMenuUlTag(item.List, 91);
                 }
                 ListMenuUlTag.AppendLine("</li>");
                 loop++;

@@ -1,6 +1,8 @@
 .navbar-green{
-	background-color:#006B15;
-	border-color: #e7e7e7;
+	/*background-color:#006B15;
+	border-color: #e7e7e7;*/
+    background-color:#106E65;
+    border:none;
 }
 
 .navbar-green a{

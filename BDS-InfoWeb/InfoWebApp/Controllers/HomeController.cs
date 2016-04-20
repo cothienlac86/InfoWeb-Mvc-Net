@@ -1,7 +1,9 @@
 ﻿using InfoWebApp.Entity;
 using InfoWebApp.Generate;
 using InfoWebApp.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace InfoWebApp.Controllers
 {
@@ -12,7 +14,12 @@ namespace InfoWebApp.Controllers
             // Lay danh sach khu vuc
             var area = new AreaDb();
             ViewBag.areaList = area.GetAll();
-            // Lay danh sach chuyen muc            
+            // Lay danh sach chuyen muc
+            var menu = new MenuDb();
+            var categoryBds = menu.GetCategoryBDS(91);
+            List<MenuListModels> allList = new List<MenuListModels>();           
+            var listAfterConvert = Common.GetTree4Cbo(categoryBds, 0);            
+            ViewBag.categoryList = Common.GetMenuSelectTag4Cbo(listAfterConvert);
             return View();
         }
 

@@ -28,8 +28,8 @@
                         <div class="form-group">
                             <label for="inputSearch">Tỉnh thành</label>
                             @{
-            var listArea = (List<InfoWebApp.Models.AreaModel>)ViewBag.listArea;
-            var listAreaChild = (List<InfoWebApp.Models.AreaModel>)ViewBag.listAreaChild;
+                                var listArea = (List<InfoWebApp.Models.AreaModel>)ViewBag.listArea;
+                                var listAreaChild = (List<InfoWebApp.Models.AreaModel>)ViewBag.listAreaChild;
                             }
                             @Html.DropDownListFor(m => m.TinhThanhId, new SelectList(listArea, "Id", "Name"), new { @class = "form-control" })
                         </div>
