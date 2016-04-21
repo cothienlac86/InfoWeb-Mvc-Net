@@ -14,3 +14,10 @@ C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.exe
 C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.pdb
 C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\bin\Debug\App.config
 C:\Users\Administrator\Desktop\WebProject\GetInfoWeb\obj\Debug\GetInfoWeb.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\bin\Debug\App.config
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\bin\Debug\GetInfoWeb.exe.config
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\bin\Debug\GetInfoWeb.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\bin\Debug\GetInfoWeb.pdb
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\obj\Debug\GetInfoWeb.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\obj\Debug\GetInfoWeb.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GetInfoWeb\obj\Debug\GetInfoWeb.pdb

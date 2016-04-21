@@ -19,7 +19,7 @@ namespace InfoWebApp.Entity
                 var list = menuDb.GetAll();
                 var listAfterConvert = Common.GetTree(list, 0);
                 Common.GetMenuUlTag(listAfterConvert);
-                Common.GetMenuSelectTag(listAfterConvert);
+                //Common.GetMenuSelectTag(listAfterConvert);
                 System.Web.HttpContext.Current.Session["UIConvert"] = Common.ListMenuUlTag.ToString();
                 System.Web.HttpContext.Current.Session["UIMenu"] = Common.ListMenuSelectTag.ToString();
             }

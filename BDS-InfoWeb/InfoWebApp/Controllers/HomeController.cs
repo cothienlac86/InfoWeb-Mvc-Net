@@ -16,10 +16,10 @@ namespace InfoWebApp.Controllers
             ViewBag.areaList = area.GetAll();
             // Lay danh sach chuyen muc
             var menu = new MenuDb();
-            var categoryBds = menu.GetCategoryBDS(91);
-            List<MenuListModels> allList = new List<MenuListModels>();           
-            var listAfterConvert = Common.GetTree4Cbo(categoryBds, 0);            
-            ViewBag.categoryList = Common.GetMenuSelectTag4Cbo(listAfterConvert);
+            var listAll = menu.GetAll();            
+            var listAfterConvert = Common.GetTree4Cbo(listAll, 0);
+            Common.GetMenuSelectTag(listAfterConvert);
+            ViewBag.categoryList = Common.ListMenuSelectTag.ToString();
             return View();
         }
 

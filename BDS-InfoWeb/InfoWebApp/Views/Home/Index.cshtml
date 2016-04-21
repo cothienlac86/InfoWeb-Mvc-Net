@@ -13,26 +13,45 @@
                 <div class="col-md-3 col-xs-12">
                     @{
                         var areaList = (List<InfoWebApp.Models.AreaModel>)ViewBag.areaList;
-                        var categoryList = (string) ViewBag.categoryList;
+                        var categoryList = (string)ViewBag.categoryList;
                     }
-                    @Html.DropDownListFor(m => m.Name, new SelectList(areaList, "Id", "Name"), new { @class = "form-control"})
-                </div>            
+                    @Html.DropDownListFor(m => m.Name, new SelectList(areaList, "Id", "Name"), new { @class = "form-control" })
+                </div>
                 <div class="col-md-4 col-xs-12">
                     <select class="form-control">
-                        <option value="0">--Chọn chuyên mục--</option>                        
-                        @Html.Raw(categoryList)         
+                        <option value="0">--Chọn chuyên mục--</option>
+                        @Html.Raw(categoryList)
                     </select>
                 </div>
                 <div class="col-md-5 col-xs-12 input-group">
                     <input type="text" class="form-control" placeholder="Nhập từ khóa">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">Tìm kiếm</button>
+                        <button class="btn btn-default" style="background-color: #006B15;color: #FFF;" type="button">Tìm kiếm</button>
                     </span>
                 </div>
             </div>
+
         </div>
-        <div class="table-responsive">
-            <table class="table"></table>
+        <div class="col-md-12" style="margin-top:50px !important;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>                        
+                        <th>Tin đăng mới nhất</th>
+                        <th style="width:150px;">Nơi rao</th>
+                        <th>Ngày đăng</th>
+                        <th>Tin VIP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="#">Bán nhà mặt tiền đường Bùi Viện</a></td>
+                        <td>Quận 1</td>
+                        <td>07/04/2016</td>
+                        <td>**</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

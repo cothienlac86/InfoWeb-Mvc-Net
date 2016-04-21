@@ -18,7 +18,8 @@ namespace InfoWebApp.Entity
         /// <summary>
         /// 
         /// </summary>
-        public MenuDb() {
+        public MenuDb()
+        {
             Id = 0;
             Name = String.Empty;
             Description = String.Empty;
@@ -53,7 +54,8 @@ namespace InfoWebApp.Entity
         /// Add new item and return Id
         /// </summary>
         /// <returns></returns>
-        public MenuModels Add(MenuModels model) {
+        public MenuModels Add(MenuModels model)
+        {
             var _conn = new SqlConnection(ConfigurationManager.ConnectionStrings["InfoWebAppDbStr"].ConnectionString);
             if (_conn.State == ConnectionState.Closed)
                 _conn.Open();
@@ -195,7 +197,8 @@ namespace InfoWebApp.Entity
         /// Get all item from database
         /// </summary>
         /// <returns></returns>
-        public List<MenuDb> GetAll() {
+        public List<MenuDb> GetAll()
+        {
             var list = new List<MenuDb>();
             //--Start Get/List--//
             var _conn = new SqlConnection(ConfigurationManager.ConnectionStrings["InfoWebAppDbStr"].ConnectionString);
@@ -235,7 +238,6 @@ namespace InfoWebApp.Entity
         public List<MenuModels> GetCategoryBDS(int id)
         {
             var listCategoriesBDS = new List<MenuModels>();           
-            var itemMain = new MenuModels();            
             var _conn = new SqlConnection(ConfigurationManager.ConnectionStrings["InfoWebAppDbStr"].ConnectionString);
             if (_conn.State == ConnectionState.Closed)
                 _conn.Open();
@@ -245,7 +247,7 @@ namespace InfoWebApp.Entity
             {
                 command.Connection = _conn;
                 SqlParameter menuParams = command.Parameters.AddWithValue("@Id", id);
-                command.CommandType = CommandType.StoredProcedure;               
+                command.CommandType = CommandType.StoredProcedure;
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows)
@@ -256,10 +258,9 @@ namespace InfoWebApp.Entity
                         item.Name = reader.GetString(1);
                         item.Id = reader.GetInt32(0);
                         listCategoriesBDS.Add(item);                       
-                        GetCategoryBDS(item.Id);
-                    }                    
+                    }
                     reader.Close();
-                }                
+                }
             }
             catch (Exception)
             {

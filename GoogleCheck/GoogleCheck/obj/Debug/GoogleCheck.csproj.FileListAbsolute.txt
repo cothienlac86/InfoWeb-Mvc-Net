@@ -6,3 +6,10 @@ C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleC
 C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
 C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb
 C:\Users\Administrator\Documents\Visual Studio 2013\Projects\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\bin\Debug\App.config
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe.config
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.pdb
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb

@@ -37,13 +37,13 @@ namespace InfoWebApp.Generate
         /// <param name="list"></param>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public static List<Tree> GetTree4Cbo(List<MenuModels> list, int parent)
+        public static List<Tree> GetTree4Cbo(List<MenuDb> list, int parent)
         {
             return list.Where(x => x.ParentId == parent).Select(x => new Tree
             {
                 Id = x.Id,
                 Name = x.Name,
-                List = GetTree4Cbo(list, x.Id)
+                List = GetTree(list, x.Id)
             }).ToList();
         }
 
@@ -76,7 +76,6 @@ namespace InfoWebApp.Generate
         {
             foreach (var item in list)
             {
-                if (item.Id == 91) continue;
                 if (item.List.Count > 0)
                 {
                     ListMenuSelectTag.AppendLine("<optgroup label='" + item.Name + "'>");
@@ -88,30 +87,6 @@ namespace InfoWebApp.Generate
                     ListMenuSelectTag.AppendLine("<option value='" + item.Id + "'>" + item.Name + "</option>");
                 }
             }
-        }
-        /// <summary>
-        /// Get menu with option for select tag
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="source"></param>
-        public static string GetMenuSelectTag4Cbo(List<Tree> list)
-        {
-            StringBuilder menuTag = new StringBuilder();
-            foreach (var item in list)
-            {
-                if (item.List.Count > 0)
-                {
-                    // <option value="0">--Chọn chuyên mục--</option>
-                    menuTag.AppendLine("<option value='" +item.Id +"'>"+ item.Name + "</option>");
-                    GetMenuSelectTag4Cbo(item.List);
-                    menuTag.AppendLine("</option>");
-                }
-                else
-                {
-                    menuTag.AppendLine("<option value='" + item.Id + "'>" + item.Name + "</option>");
-                }                
-            }
-            return menuTag.ToString();
         }
 
         /// <summary>
