@@ -1,0 +1,3 @@
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.frmReadNews.resources
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csproj.GenerateResource.Cache

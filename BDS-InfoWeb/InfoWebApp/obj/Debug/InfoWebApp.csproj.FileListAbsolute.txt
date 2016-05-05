@@ -394,6 +394,6 @@ D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\bin\ko\Sys
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\bin\ru\System.Spatial.resources.dll
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\bin\zh-Hans\System.Spatial.resources.dll
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\bin\zh-Hant\System.Spatial.resources.dll
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.dll
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.pdb
-D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache

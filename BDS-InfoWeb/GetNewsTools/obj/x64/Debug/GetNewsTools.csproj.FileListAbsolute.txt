@@ -1,0 +1,15 @@
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.csprojResolveAssemblyReference.cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.frmGetNews.resources
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.Properties.Resources.resources
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.csproj.GenerateResource.Cache
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\GetNewsTools.exe.config
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\GetNewsTools.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\GetNewsTools.pdb
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.Core.dll
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.dll
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.WinForms.dll
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.WinForms.xml
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.xml
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\bin\x64\Debug\CefSharp.Core.xml
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.exe
+D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\GetNewsTools\obj\x64\Debug\GetNewsTools.pdb
