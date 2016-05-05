@@ -311,28 +311,31 @@ namespace GetInfoWeb
                 {
                     var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
                     news.Address = address;
-                    Console.WriteLine("address:" + address);
+                    Console.WriteLine("Address:" + address);
                 }
                 // Dien tich
                 //------------ Holder here---------------
                 // Price
                 //------------ Holder here---------------
                 // Phone
-                var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@title='Số điện thoại liên hệ của tin rao']//p");
+                var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
                 foreach (var node in phoneNodes)
                 {
-                    var phone = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    news.PhoneNumber = phone;
-                    Console.WriteLine("address:" + phone);
+                    var phone = node.InnerText.Trim();
+                    news.PhoneNumber = ConverHexToUnicode(phone);
+                    Console.WriteLine("PhoneNumber:" + phone);
                 }
                 // Content
-                var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='content_input_editior']");
-                foreach (var node in phoneNodes)
+                var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='content_input_editior']//p");
+                string contents = string.Empty;
+                foreach (var node in contentNodes)
                 {
-                    var phone = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    news.PhoneNumber = phone;
-                    Console.WriteLine("address:" + phone);
+                    //var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    contents += node.InnerText.Trim();
+
                 }
+                Console.WriteLine("NewsContent:" + ConverHexToUnicode(contents));
+                news.NewsContent = contents;
                 // Status
                 // Datetiem
 
@@ -342,6 +345,29 @@ namespace GetInfoWeb
                 Thread.Sleep(1000);
             }
             return result;
+        }
+
+        private string ConverHexToUnicode(string hexValue)
+        {
+            //hexValue.ToCharArray()
+            return Encoding.GetEncoding("ISO-8859-1").GetString(HexToBytes(hexValue));
+        }
+
+        private byte[] HexToBytes(string hexValue)
+        {
+            if (hexValue == null)
+                throw new ArgumentNullException("hexString");
+            if (hexValue.Length % 2 != 0)
+                throw new ArgumentException("hexString must have an even length", "hexString");
+            var bytes = new byte[hexValue.Length / 5];
+            for (int i = 0; i < bytes.Length; i+=5)
+            {
+                var index = i * 5;
+                string currentHex = hexValue.Substring(index, 5);
+                bytes[i / 5] = Convert.ToByte(currentHex.Replace("&#x","").Trim());
+                index++;
+            }
+            return bytes;
         }
 
         public static void Add(PrivateNews model)
