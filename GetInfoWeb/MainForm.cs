@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -322,7 +323,8 @@ namespace GetInfoWeb
                 foreach (var node in phoneNodes)
                 {
                     var phone = node.InnerText.Trim();
-                    news.PhoneNumber = ConverHexToUnicode(phone);
+                    phone  = phone.Replace("&#x3", "").Replace(";", "");
+                    news.PhoneNumber = phone;
                     Console.WriteLine("PhoneNumber:" + phone);
                 }
                 // Content
@@ -334,7 +336,8 @@ namespace GetInfoWeb
                     contents += node.InnerText.Trim();
 
                 }
-                Console.WriteLine("NewsContent:" + ConverHexToUnicode(contents));
+                //contents = string.Join("", contents.Split(';'));
+                Console.WriteLine("NewsContent:" + contents.Replace("&#x3", "").Replace(";", ""));
                 news.NewsContent = contents;
                 // Status
                 // Datetiem
@@ -353,18 +356,23 @@ namespace GetInfoWeb
             return Encoding.GetEncoding("ISO-8859-1").GetString(HexToBytes(hexValue));
         }
 
+        string HexStringToString(string hexString)
+        {
+            return string.Join("", Regex.Split(hexString, "(?<=\\G..)(?!$)").Select(x => (char)Convert.ToByte(x, 16)));
+        }
+
         private byte[] HexToBytes(string hexValue)
         {
             if (hexValue == null)
                 throw new ArgumentNullException("hexString");
             if (hexValue.Length % 2 != 0)
                 throw new ArgumentException("hexString must have an even length", "hexString");
-            var bytes = new byte[hexValue.Length / 5];
-            for (int i = 0; i < bytes.Length; i+=5)
+            var bytes = new byte[hexValue.Length / 25];
+            for (int i = 0; i < bytes.Length; i+=2)
             {
-                var index = i * 5;
+                var index = i * 2;
                 string currentHex = hexValue.Substring(index, 5);
-                bytes[i / 5] = Convert.ToByte(currentHex.Replace("&#x","").Trim());
+                bytes[i / 2] = Convert.ToByte(currentHex);
                 index++;
             }
             return bytes;
