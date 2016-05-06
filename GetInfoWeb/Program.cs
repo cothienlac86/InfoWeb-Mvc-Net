@@ -11,6 +11,4 @@ namespace GetInfoWeb
             Application.Run(new MainForm());
         }
     }
-
-
 }
