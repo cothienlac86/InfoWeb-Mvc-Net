@@ -18,6 +18,7 @@ namespace GetInfoWeb
     {
         private List<string> urlSource = null;
         private string m_CopyUrl = string.Empty;
+        private List<PrivateNews> copyData = new List<PrivateNews>();
         public MainForm()
         {
             InitializeComponent();
@@ -40,12 +41,11 @@ namespace GetInfoWeb
         private void ExecuteCopyData()
         {
             if (string.IsNullOrEmpty(m_CopyUrl)) return;
-
             //Console.WriteLine(GetCountOfResultFromGoogle("0982982690"));
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(string.Format("== Lay thong tin trang: {0} ==", comboBox1.SelectedText));
             Console.ResetColor();
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Bat dau kiem tra ket noi mang...");
             Thread.Sleep(1000);
@@ -56,6 +56,13 @@ namespace GetInfoWeb
                     var link = string.Format(m_CopyUrl, i + 1);
                     //GetBdsLinks(link, (i + 1));
                     GetRongBayLinks(link, i + 1);
+                }
+                if (copyData.Count > 0)
+                {
+                    dataGridView1.DataSource = null;
+                    dataGridView1.DataSource = copyData.ToArray<PrivateNews>();
+                    dataGridView1.DataMember = "Key";
+                    copyData.Clear();
                 }
             }
             catch (Exception ex)
@@ -193,7 +200,7 @@ namespace GetInfoWeb
             Console.WriteLine("Bat dau doc du lieu tu trang " + number);
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='p-title']//a"))
             {
                 var news = new PrivateNews();
@@ -287,7 +294,7 @@ namespace GetInfoWeb
             Console.WriteLine("Bat dau doc du lieu tu trang " + number);
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@class='link_direct']"))
             {
                 var news = new PrivateNews();
@@ -328,16 +335,33 @@ namespace GetInfoWeb
                     Console.WriteLine("PhoneNumber:" + phone);
                 }
                 // Content
-                var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='content_input_editior']//p");
+                var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='content_input_editior']");
                 string contents = string.Empty;
                 foreach (var node in contentNodes)
                 {
-                    //var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    contents += node.InnerText.Trim();
+                    if (node.HasChildNodes)
+                    {
+                        var subContentNode = node.ChildNodes;
+                        if (subContentNode != null)
+                        {
+                            int size = subContentNode.Count;
+                            int index = 0;
+                            foreach (var subNode in subContentNode)
+                            {
+                                if (index < size)
+                                {
+                                    //subNode.S
+                                }
+                                index++;
+                          }
+                        }
 
+                    }
+                    //contents += node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    contents += node.InnerText;
                 }
                 //contents = string.Join("", contents.Split(';'));
-                Console.WriteLine("NewsContent:" + contents.Replace("&#x3", "").Replace(";", ""));
+                Console.WriteLine("NewsContent:" + contents.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
                 news.NewsContent = contents;
                 // Status
                 // Datetiem
@@ -345,7 +369,8 @@ namespace GetInfoWeb
                 //Add(news);
                 Console.WriteLine("=====================");
                 Console.WriteLine("=====================");
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
+                copyData.Add(news);
             }
             return result;
         }
