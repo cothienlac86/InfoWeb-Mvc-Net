@@ -19,3 +19,4 @@ D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\bin\Debug\G
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.pdb
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb
+D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.csprojResolveAssemblyReference.cache
