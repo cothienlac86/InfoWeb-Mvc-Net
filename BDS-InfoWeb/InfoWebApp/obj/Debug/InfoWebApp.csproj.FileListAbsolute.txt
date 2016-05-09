@@ -398,3 +398,4 @@ D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.dll
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.pdb
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache
+E:\Workspaces\Projects\Bdscc\New-Git\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache

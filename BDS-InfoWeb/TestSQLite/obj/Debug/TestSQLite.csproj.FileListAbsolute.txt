@@ -4,3 +4,6 @@ D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\TestSQLite\obj\Debug\
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csprojResolveAssemblyReference.cache
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.frmReadNews.resources
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csproj.GenerateResource.Cache
+E:\Workspaces\Projects\Bdscc\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csprojResolveAssemblyReference.cache
+E:\Workspaces\Projects\Bdscc\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.frmReadNews.resources
+E:\Workspaces\Projects\Bdscc\New-Git\BDS-InfoWeb\TestSQLite\obj\Debug\TestSQLite.csproj.GenerateResource.Cache

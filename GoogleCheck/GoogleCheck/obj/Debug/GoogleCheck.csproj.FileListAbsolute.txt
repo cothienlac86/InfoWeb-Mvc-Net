@@ -19,3 +19,9 @@ D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\bin\Debug\G
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.pdb
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\bin\Debug\App.config
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe.config
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.exe
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\bin\Debug\GoogleCheck.pdb
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.exe
+E:\Workspaces\Projects\Bdscc\New-Git\GoogleCheck\GoogleCheck\obj\Debug\GoogleCheck.pdb
