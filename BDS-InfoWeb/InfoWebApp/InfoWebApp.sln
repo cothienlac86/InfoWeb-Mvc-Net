@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleCheck", "..\..\Google
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSQLite", "..\TestSQLite\TestSQLite.csproj", "{24B7D3B6-5D69-44A1-96CD-2B736174CDD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetNewsTools", "..\GetNewsTools\GetNewsTools.csproj", "{8D1F389B-48C9-49C8-8BA5-A42911F1080D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,15 +51,6 @@ Global
 		{24B7D3B6-5D69-44A1-96CD-2B736174CDD1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24B7D3B6-5D69-44A1-96CD-2B736174CDD1}.Release|x64.ActiveCfg = Release|Any CPU
 		{24B7D3B6-5D69-44A1-96CD-2B736174CDD1}.Release|x64.Build.0 = Release|Any CPU
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Debug|x64.ActiveCfg = Debug|x64
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Debug|x64.Build.0 = Debug|x64
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Debug|x64.Deploy.0 = Debug|x64
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Release|x64.ActiveCfg = Release|x64
-		{8D1F389B-48C9-49C8-8BA5-A42911F1080D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -397,3 +397,4 @@ D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\bin\zh-Han
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.dll
 D:\Projects\Bat-Dong-San\Source-Code\GitHub-SC\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.pdb
+D:\Projects\Bat-Dong-San\Source-Code\New-Git\BDS-InfoWeb\InfoWebApp\obj\Debug\InfoWebApp.csprojResolveAssemblyReference.cache

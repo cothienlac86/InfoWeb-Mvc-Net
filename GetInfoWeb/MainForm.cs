@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,6 +26,12 @@ namespace GetInfoWeb
             InitializeComponent();
             // Application logic
             InitUrlsSource();
+            // Background Worker
+            //copyWorkers.WorkerReportsProgress = true;
+            //copyWorkers.WorkerSupportsCancellation = true;
+            //copyWorkers.DoWork += new DoWorkEventHandler(copyWorkers_DoWork);
+            //copyWorkers.ProgressChanged += new ProgressChangedEventHandler(copyWorkers_ProgressChanged);
+            //copyWorkers.RunWorkerCompleted += new RunWorkerCompletedEventHandler(copyWorkers_RunWorkerCompleted);
         }
 
         private void InitUrlsSource()
@@ -42,6 +49,7 @@ namespace GetInfoWeb
 
         private void ExecuteCopyData()
         {
+            if (string.IsNullOrEmpty(txtCopyNo.Text)) return;
             if (string.IsNullOrEmpty(m_CopyUrl)) return;
             //Console.WriteLine(GetCountOfResultFromGoogle("0982982690"));
             Console.ForegroundColor = ConsoleColor.Green;
@@ -53,20 +61,13 @@ namespace GetInfoWeb
             Thread.Sleep(1000);
             try
             {
-                for (int i = 0; i < 5; i++)
+                int page2Copy = int.Parse(txtCopyNo.Text);
+                for (int i = 0; i < page2Copy; i++)
                 {
                     var link = string.Format(m_CopyUrl, i + 1);
                     //GetBdsLinks(link, (i + 1));
                     GetRongBayLinks(link, i + 1);
                     Thread.Sleep(1000);
-                }
-
-                if (copyData.Count > 0)
-                {
-                    dataGridView1.DataSource = null;
-                    dataGridView1.DataSource = copyData.ToArray<PrivateNews>();
-                    dataGridView1.DataMember = "Key";
-                    copyData.Clear();
                 }
             }
             catch (Exception ex)
@@ -74,8 +75,17 @@ namespace GetInfoWeb
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(string.Format("Error:{0}", ex.Message));
-                Console.WriteLine("Khong the ket noi voi internet. \nVui long kiem tra ket noi mang va cau hinh may tinh!\nNhan Enter de thoat...");
+                //Console.WriteLine("Khong the ket noi voi internet. \nVui long kiem tra ket noi mang va cau hinh may tinh!\nNhan Enter de thoat...");
                 Console.ReadLine();
+            }
+            finally
+            {
+                if (copyData.Count > 0)
+                {
+                    dataGridView1.DataSource = copyData.ToArray<PrivateNews>();
+                    dataGridView1.DataMember = "Value";
+                    copyData.Clear();
+                }
             }
         }
 
@@ -307,7 +317,8 @@ namespace GetInfoWeb
                 Console.WriteLine("Bat dau doc du lieu tu trang " + number);
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
+                int countNews = 1;
                 foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@class='link_direct']"))
                 {
                     var news = new PrivateNews();
@@ -359,11 +370,23 @@ namespace GetInfoWeb
                             {
                                 if (t.HasChildNodes)
                                 {
+                                    //if (t.HasAttributes)
+                                    //{
+                                    //    List<HtmlAttribute> attrs = t.ChildAttributes("image").ToList<HtmlAttribute>();
+                                    //    if (attrs != null)
+                                    //    {
+                                    //        foreach (var att in attrs)
+                                    //        {
+
+                                    //        }
+                                    //    }
+                                    //}
+
                                     contents += t.InnerText;
                                 }
                                 else
                                 {
-                                    contents += t.OuterHtml;
+                                    contents += t.InnerHtml;
                                 }
                             });
                         }
@@ -385,7 +408,7 @@ namespace GetInfoWeb
                     //Add(news);
                     Console.WriteLine("=====================");
                     Console.WriteLine("=====================");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     copyData.Add(news);
                 }
             }
@@ -394,13 +417,124 @@ namespace GetInfoWeb
                 Console.WriteLine("=====================");
                 Console.WriteLine("    Error:{0}", ex.Message);
                 Console.WriteLine("=====================");
+            }
+            return result;
+        }
 
-
-                if (copyData.Count > 0)
+        private string GetRaoVatLinks(string url, int number)
+        {
+            var result = String.Empty;
+            try
+            {
+                var resultHtml = GetContent(url);
+                //using Html Agility Pack
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resultHtml);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Thread.Sleep(3000);
+                int countNews = 1;
+                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@class='link_direct']"))
                 {
-                    dataGridView1.DataSource = copyData.ToArray<PrivateNews>();
-                    dataGridView1.DataMember = "Value";
+                    var news = new PrivateNews();
+                    Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    Console.WriteLine("Link:" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
+                    var subUrl = link.Attributes["href"].Value;
+                    var subResultHtml = GetContent(subUrl);
+                    var docSub = new HtmlAgilityPack.HtmlDocument();
+                    docSub.LoadHtml(subResultHtml);
+                    var titleNodes = docSub.DocumentNode.SelectNodes("//div[@class='detail_title color333 font_26']//h1");
+                    foreach (var node in titleNodes)
+                    {
+                        var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                        news.Title = title;
+                        Console.WriteLine("title:" + title);
+                    }
+                    // Address
+                    var addNodes = docSub.DocumentNode.SelectNodes("//p[@class='color444']//a[@class='color444']");
+                    foreach (var node in addNodes)
+                    {
+                        var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                        news.Address = address;
+                        Console.WriteLine("Address:" + address);
+                    }
+                    // Dien tich
+                    //------------ Holder here---------------
+                    // Price
+                    //------------ Holder here---------------
+                    // Phone
+                    var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
+                    foreach (var node in phoneNodes)
+                    {
+                        var phone = node.InnerText.Trim();
+                        phone = phone.Replace("&#x3", "").Replace(";", "");
+                        news.PhoneNumber = phone;
+                        Console.WriteLine("PhoneNumber:" + phone);
+                    }
+                    // Content
+                    var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='content_input_editior']");
+                    string contents = string.Empty;
+                    foreach (var node in contentNodes)
+                    {
+                        if (node.HasChildNodes)
+                        {
+                            var childNodes = node.ChildNodes.ToList<HtmlNode>();
+                            childNodes.ForEach(t =>
+                            {
+                                if (t.HasChildNodes)
+                                {
+                                    //if (t.HasAttributes)
+                                    //{
+                                    //    List<HtmlAttribute> attrs = t.ChildAttributes("image").ToList<HtmlAttribute>();
+                                    //    if (attrs != null)
+                                    //    {
+                                    //        foreach (var att in attrs)
+                                    //        {
+
+                                    //        }
+                                    //    }
+                                    //}
+
+                                    contents += t.InnerText;
+                                }
+                                else
+                                {
+                                    contents += t.InnerHtml;
+                                }
+                            });
+                        }
+                        else
+                        {
+                            contents += node.OuterHtml; ;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contents))
+                    {
+                        news.NewsContent = contents;
+                        //contents = string.Join("", contents.Split(';'));
+                        Console.WriteLine("NewsContent:" + contents.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    }
+                    // Status
+                    news.Status = 2;
+                    // Set Datetiem Value
+                    news.Datetime = DateTime.Today;
+                    //Add(news);
+                    Console.WriteLine("=====================");
+                    Console.WriteLine("=====================");
+                    Thread.Sleep(3000);
+                    copyData.Add(news);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("=====================");
+                Console.WriteLine("    Error:{0}", ex.Message);
+                Console.WriteLine("=====================");
             }
             return result;
         }
@@ -516,14 +650,7 @@ namespace GetInfoWeb
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ExecuteCopyData();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            ExecuteCopyData();
         }
     }
 }
