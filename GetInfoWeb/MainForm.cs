@@ -38,10 +38,15 @@ namespace GetInfoWeb
         {
             if (urlSource == null)
             {
+                //muaban.net, chotot.vn, batdongsan.com.vn, rongbay.com, vatgia.com, enbac.com, vnexpress.net
                 urlSource = new List<string>();
+                urlSource.Add("muaban.net");
+                urlSource.Add("chotot.vn");
                 urlSource.Add("batdongsan.com.vn");
                 urlSource.Add("rongbay.com");
-                urlSource.Add("raovat.com");
+                urlSource.Add("vatgia.com");
+                urlSource.Add("enbac.com");
+                urlSource.Add("vnexpress.net");
             }
             comboBox1.DataSource = urlSource.ToArray();
             comboBox1.DisplayMember = "Value";
@@ -55,7 +60,6 @@ namespace GetInfoWeb
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(string.Format("== Lay thong tin trang: {0} ==", comboBox1.SelectedText));
             Console.ResetColor();
-            Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Bat dau kiem tra ket noi mang...");
             Thread.Sleep(1000);
@@ -66,8 +70,9 @@ namespace GetInfoWeb
                 {
                     var link = string.Format(m_CopyUrl, i + 1);
                     //GetBdsLinks(link, (i + 1));
+                    Console.WriteLine(string.Format("== Trang: {0} ==", link));
                     GetRongBayLinks(link, i + 1);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                 }
             }
             catch (Exception ex)
@@ -201,9 +206,9 @@ namespace GetInfoWeb
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private string GetBdsLinks(string url, int number)
+        private void GetBdsLinks(string url, int number)
         {
-            var result = String.Empty;
+            //var result = String.Empty;
             try
             {
                 var resultHtml = GetContent(url);
@@ -292,10 +297,16 @@ namespace GetInfoWeb
             }
             catch (Exception ex)
             {
+                Console.WriteLine("=====================");
                 Console.WriteLine("Error:{0}", ex.Message);
+                Console.WriteLine("=====================");
 
             }
-            return result;
+            finally
+            {
+
+            }
+            //return result;
         }
 
         /// <summary>
@@ -303,9 +314,9 @@ namespace GetInfoWeb
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private string GetRongBayLinks(string url, int number)
+        private void GetRongBayLinks(string url, int number)
         {
-            var result = String.Empty;
+            //var result = String.Empty;
             try
             {
                 var resultHtml = GetContent(url);
@@ -403,6 +414,8 @@ namespace GetInfoWeb
                     }
                     // Status
                     news.Status = 2;
+                    news.Id = countNews;
+                    countNews++;
                     // Set Datetiem Value
                     news.Datetime = DateTime.Today;
                     //Add(news);
@@ -418,7 +431,7 @@ namespace GetInfoWeb
                 Console.WriteLine("    Error:{0}", ex.Message);
                 Console.WriteLine("=====================");
             }
-            return result;
+            //return result;
         }
 
         private string GetRaoVatLinks(string url, int number)
@@ -517,7 +530,7 @@ namespace GetInfoWeb
                     {
                         news.NewsContent = contents;
                         //contents = string.Join("", contents.Split(';'));
-                        Console.WriteLine("NewsContent:" + contents.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                        Console.WriteLine("NewsContent:" + ConverHexToUnicode(contents));
                     }
                     // Status
                     news.Status = 2;
@@ -552,8 +565,7 @@ namespace GetInfoWeb
 
         private string ConverHexToUnicode(string hexValue)
         {
-            //hexValue.ToCharArray()
-            return Encoding.GetEncoding("ISO-8859-1").GetString(HexToBytes(hexValue));
+            return hexValue.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
         }
 
         private string HexStringToString(string hexString)
@@ -637,8 +649,25 @@ namespace GetInfoWeb
                 case 1:
                     m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
                     break;
-
                 case 2:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 3:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 4:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 5:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 6:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 7:
+                    m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
+                    break;
+                case 8:
                     m_CopyUrl = "http://rongbay.com/TP-HCM/Mua-Ban-nha-dat-c15-trang{0}.html";
                     break;
 

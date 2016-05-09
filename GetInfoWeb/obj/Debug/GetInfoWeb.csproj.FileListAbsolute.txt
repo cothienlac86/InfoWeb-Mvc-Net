@@ -40,3 +40,4 @@ D:\Projects\Bat-Dong-San\Source-Code\New-Git\GetInfoWeb\bin\Debug\System.Web.Opt
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GetInfoWeb\obj\Debug\GetInfoWeb.exe
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GetInfoWeb\obj\Debug\GetInfoWeb.pdb
 D:\Projects\Bat-Dong-San\Source-Code\New-Git\GetInfoWeb\obj\Debug\GetInfoWeb.Properties.Resources.resources
+D:\Projects\Bat-Dong-San\Source-Code\New-Git\GetInfoWeb\obj\Debug\GetInfoWeb.csprojResolveAssemblyReference.cache
