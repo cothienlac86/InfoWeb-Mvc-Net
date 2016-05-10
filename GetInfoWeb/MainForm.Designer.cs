@@ -53,14 +53,14 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(115, 7);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(464, 24);
+            this.comboBox1.Size = new System.Drawing.Size(764, 24);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.DarkTurquoise;
-            this.button1.Location = new System.Drawing.Point(777, 5);
+            this.button1.Location = new System.Drawing.Point(1070, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 29);
             this.button1.TabIndex = 1;
@@ -73,7 +73,7 @@
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Location = new System.Drawing.Point(16, 41);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(881, 478);
+            this.panel1.Size = new System.Drawing.Size(1177, 593);
             this.panel1.TabIndex = 0;
             // 
             // dataGridView1
@@ -81,13 +81,13 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(873, 470);
+            this.dataGridView1.Size = new System.Drawing.Size(1171, 587);
             this.dataGridView1.TabIndex = 0;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(585, 11);
+            this.label2.Location = new System.Drawing.Point(885, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 16);
             this.label2.TabIndex = 4;
@@ -95,7 +95,7 @@
             // 
             // txtCopyNo
             // 
-            this.txtCopyNo.Location = new System.Drawing.Point(694, 8);
+            this.txtCopyNo.Location = new System.Drawing.Point(994, 8);
             this.txtCopyNo.Name = "txtCopyNo";
             this.txtCopyNo.Size = new System.Drawing.Size(67, 22);
             this.txtCopyNo.TabIndex = 5;
@@ -104,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 522);
+            this.ClientSize = new System.Drawing.Size(1205, 646);
             this.Controls.Add(this.txtCopyNo);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
