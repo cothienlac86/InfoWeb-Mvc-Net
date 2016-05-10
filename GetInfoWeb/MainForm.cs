@@ -21,7 +21,6 @@ namespace GetInfoWeb
 
         private List<PrivateNews> copyData = new List<PrivateNews>();
         private string m_CopyUrl = string.Empty;
-        private StringBuilder recursionNode = new StringBuilder();
         private List<string> urlSource = null;
 
         #endregion Private Fields
@@ -164,7 +163,7 @@ namespace GetInfoWeb
                     m_CopyUrl = "http://vatgia.com/raovat/cho+thu%C3%AA+nh%C3%A0.srvg,{0}";
                     break;
                 case 5:
-                    m_CopyUrl = "http://enbac.com";
+                    m_CopyUrl = "http://enbac.com/Ho-Chi-Minh/c103/Mua-ban-nha-dat/page-{0}";
                     break;
                 case 6:
                     m_CopyUrl = "http://vnexpress.net";
@@ -217,6 +216,9 @@ namespace GetInfoWeb
                             GetVatGiaLinks(link, i + 1);
                             break;
                         case 5:
+                            GetEnbacLinks(link, i + 1);
+                            break;
+                        case 6:
                             break;
                         default:
                             break;
@@ -371,6 +373,148 @@ namespace GetInfoWeb
             //return result;
         }
 
+        private void GetChototLinks(string url, int number)
+        {
+            try
+            {
+                var resultHtml = GetContent(url);
+                //using Html Agility Pack
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resultHtml);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Thread.Sleep(3000);
+                int countNews = 1;
+                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='thumbs_subject']//a[@class='ad-subject']"))
+                {
+                    var news = new PrivateNews();
+                    //Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    Console.WriteLine("Link:" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
+                    var subUrl = link.Attributes["href"].Value.Replace("https", "http");
+                    var subResultHtml = GetContent(subUrl);
+                    var docSub = new HtmlAgilityPack.HtmlDocument();
+                    docSub.LoadHtml(subResultHtml);
+                    var titleNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[1]/h2");
+                    if (titleNodes != null)
+                    {
+                        foreach (var node in titleNodes)
+                        {
+                            var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Title = title;
+                            Console.WriteLine("title:" + title);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get Title value");
+                    }
+
+                    // Address
+                    var addNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[@class='adparams_div']/div[5]/strong");
+                    if (addNodes != null)
+                    {
+                        foreach (var node in addNodes)
+                        {
+                            var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Address = address;
+                            Console.WriteLine("Address:" + address);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get address value");
+                    }
+
+                    // Dien tich
+                    var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[@class='adparams_div']/div[2]/strong");
+                    if (dtichNodes != null)
+                    {
+                        foreach (var node in dtichNodes)
+                        {
+                            var dientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Dientich = dientich;
+                            Console.WriteLine("Dien tich:" + dientich);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get dien tich value");
+                    }
+                    // Price
+                    var priceNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[4]/div[2]/div/span[1]/span/span");
+                    if (priceNodes != null)
+                    {
+                        foreach (var node in priceNodes)
+                        {
+                            var price = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Price = price;
+                            Console.WriteLine("Gia tien:" + price);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get price value");
+                    }
+                    // Phone
+                    // Place holder to get phone from cefsharp lib
+                    //var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
+                    //if (phoneNodes != null)
+                    //{
+                    //    foreach (var node in phoneNodes)
+                    //    {
+                    //        var phone = node.InnerText.Trim();
+                    //        phone = phone.Replace("&#x3", "").Replace(";", "");
+                    //        news.PhoneNumber = phone;
+                    //        Console.WriteLine("PhoneNumber:" + phone);
+                    //    }
+                    //}
+
+                    // Content
+                    var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='body_text']");
+                    string contents = string.Empty;
+                    if (contentNodes != null)
+                    {
+                        foreach (var node in contentNodes)
+                        {
+                            var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").Replace("<!-- Body -->", "").TrimStart().TrimEnd();
+
+                            news.NewsContent = content;
+                            Console.WriteLine("Content:" + content);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get contents value");
+                    }
+                    // Status
+                    news.Status = 2;
+                    news.Id = countNews;
+                    copyData.Add(news);
+
+                    // Set Datetiem Value
+                    news.Datetime = DateTime.Today;
+                    countNews++;
+                    //Add(news);
+                    Console.WriteLine("=====================");
+                    Console.WriteLine("=====================");
+                    Thread.Sleep(3000);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("=====================");
+                Console.WriteLine("    Error:{0}", ex.Message);
+                Console.WriteLine("=====================");
+            }
+        }
+
         /// <summary>
         /// Get content of web site
         /// </summary>
@@ -395,7 +539,7 @@ namespace GetInfoWeb
                 new Cookie("__auc", "c99bb1d41538995d02618de55b8") { Domain = domainValue },
                 new Cookie("psortfilter", "1%24all%24VOE%2FWO8MpO1adIX%2BwMGNUA%3D%3D") { Domain = domainValue },
                 new Cookie("raovatPosition", "3") { Domain = domainValue },
-                new Cookie("login_name", "vuthanh86") { Domain = domainValue }
+                new Cookie("login_name", "vuthanh86") { Domain = domainValue },                
             });
 
             request.Timeout = 15 * 1000;
@@ -441,6 +585,152 @@ namespace GetInfoWeb
                 resultNumber = 0;
             }
             return resultNumber;
+        }
+
+        private void GetEnbacLinks(string url, int number)
+        {
+            try
+            {
+                var resultHtml = GetContent(url);
+                //using Html Agility Pack
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resultHtml);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Thread.Sleep(3000);
+                int countNews = 1;
+                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='i_title']/h2/a"))
+                {
+                    var news = new PrivateNews();
+                    //Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    Console.WriteLine("Link: http://" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
+                    var subUrl = "http:" + link.Attributes["href"].Value.Replace("https", "http");
+                    var subResultHtml = GetContent(subUrl);
+                    var docSub = new HtmlAgilityPack.HtmlDocument();
+                    docSub.LoadHtml(subResultHtml);
+                    var titleNodes = docSub.DocumentNode.SelectNodes("//*[@id='item_name']/h1");
+                    if (titleNodes != null)
+                    {
+                        foreach (var node in titleNodes)
+                        {
+                            var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Title = title;
+                            Console.WriteLine("title:" + title);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get Title value");
+                    }
+
+                    // Address //*[@id="container_content"]/div/div/div/div/div[1]/div[1]/div[2]/div[2]/ul/li[2]/span
+                    var addNodes = docSub.DocumentNode.SelectNodes("//*[@id='productDetail']/div[2]/div[1]/div[2]/span[2]/p[2]/b[2]");
+                    if (addNodes != null)
+                    {
+                        foreach (var node in addNodes)
+                        {
+                            var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Address = address;
+                            Console.WriteLine("Address:" + address);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get address value");
+                    }
+
+                    // Dien tich //*[@id="main_description"]/div[1]/table/tbody/tr[2]/td[2]
+                    var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']/div[1]/table/tbody/tr[3]/td[2]");
+                    if (dtichNodes != null)
+                    {
+                        foreach (var node in dtichNodes)
+                        {
+                            var dientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Dientich = dientich;
+                            Console.WriteLine("Dien tich:" + dientich);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get dien tich value");
+                    }
+                    // Price
+                    var priceNodes = docSub.DocumentNode.SelectNodes("//*[@id='image_info']/div[1]/span");
+                    if (priceNodes != null)
+                    {
+                        foreach (var node in priceNodes)
+                        {
+                            var price = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Price = price;
+                            Console.WriteLine("Gia tien:" + price);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get price value");
+                    }
+                    // Phone
+                    // Place holder to get phone from cefsharp lib
+                    var phoneNodes = docSub.DocumentNode.SelectNodes("//*[@id='productDetail']/div[2]/div[3]/div[2]/span[3]/ul/li[1]/label");
+                    if (phoneNodes != null)
+                    {
+                        foreach (var node in phoneNodes)
+                        {
+                            var phone = node.InnerText.Trim();
+                            phone = phone.Replace("&#x3", "").Replace(";", "");
+                            news.PhoneNumber = phone;
+                            Console.WriteLine("PhoneNumber:" + phone);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get phone value");
+                    }
+
+                    // Content
+                    var contentNodes = docSub.DocumentNode.SelectNodes("//*[@id='item_desc']/p/span[1]");
+                    string contents = string.Empty;
+                    if (contentNodes != null)
+                    {
+                        foreach (var node in contentNodes)
+                        {
+                            var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").Replace("<!-- Body -->", "").TrimStart().TrimEnd();
+
+                            news.NewsContent = content;
+                            Console.WriteLine("Content:" + content);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get contents value");
+                    }
+                    // Status
+                    news.Status = 2;
+                    news.Id = countNews;
+                    copyData.Add(news);
+
+                    // Set Datetiem Value
+                    news.Datetime = DateTime.Today;
+                    countNews++;
+                    //Add(news);
+                    Console.WriteLine("=====================");
+                    Console.WriteLine("=====================");
+                    Thread.Sleep(3000);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("=====================");
+                Console.WriteLine("    Error:{0}", ex.Message);
+                Console.WriteLine("=====================");
+            }
         }
 
         private void GetMuaBanLinks(string url, int number)
@@ -560,291 +850,6 @@ namespace GetInfoWeb
                 Console.WriteLine("=====================");
             }
         }
-
-        private void GetChototLinks(string url, int number)
-        {
-            try
-            {
-                var resultHtml = GetContent(url);
-                //using Html Agility Pack
-                var doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(resultHtml);
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Thread.Sleep(3000);
-                int countNews = 1;
-                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='thumbs_subject']//a[@class='ad-subject']"))
-                {
-                    var news = new PrivateNews();
-                    //Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    //news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    Console.WriteLine("Link:" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
-                    var subUrl = link.Attributes["href"].Value.Replace("https", "http");
-                    var subResultHtml = GetContent(subUrl);
-                    var docSub = new HtmlAgilityPack.HtmlDocument();
-                    docSub.LoadHtml(subResultHtml);
-                    var titleNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[1]/h2");
-                    if (titleNodes != null)
-                    {
-                        foreach (var node in titleNodes)
-                        {
-                            var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Title = title;
-                            Console.WriteLine("title:" + title);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get Title value");
-                    }
-
-                    // Address
-                    var addNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[@class='adparams_div']/div[5]/strong");
-                    if (addNodes != null)
-                    {
-                        foreach (var node in addNodes)
-                        {
-                            var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Address = address;
-                            Console.WriteLine("Address:" + address);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get address value");
-                    }
-
-                    // Dien tich
-                    var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[@class='adparams_div']/div[2]/strong");
-                    if (dtichNodes != null)
-                    {
-                        foreach (var node in dtichNodes)
-                        {
-                            var dientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-
-                            news.Dientich = dientich;
-                            Console.WriteLine("Dien tich:" + dientich);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get dien tich value");
-                    }
-                    // Price
-                    var priceNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_content']/div[2]/div[1]/div[2]/div/div/div/div[4]/div[2]/div/span[1]/span/span");
-                    if (priceNodes != null)
-                    {
-                        foreach (var node in priceNodes)
-                        {
-                            var price = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-
-                            news.Price = price;
-                            Console.WriteLine("Gia tien:" + price);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get price value");
-                    }
-                    // Phone
-                    // Place holder to get phone from cefsharp lib
-                    //var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
-                    //if (phoneNodes != null)
-                    //{
-                    //    foreach (var node in phoneNodes)
-                    //    {
-                    //        var phone = node.InnerText.Trim();
-                    //        phone = phone.Replace("&#x3", "").Replace(";", "");
-                    //        news.PhoneNumber = phone;
-                    //        Console.WriteLine("PhoneNumber:" + phone);
-                    //    }
-                    //}
-
-                    // Content
-                    var contentNodes = docSub.DocumentNode.SelectNodes("//div[@class='body_text']");
-                    string contents = string.Empty;
-                    if (contentNodes != null)
-                    {
-                        foreach (var node in contentNodes)
-                        {
-                            var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").Replace("<!-- Body -->","").TrimStart().TrimEnd();
-
-                            news.NewsContent = content;
-                            Console.WriteLine("Content:" + content);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get contents value");
-                    }
-                    // Status
-                    news.Status = 2;
-                    news.Id = countNews;
-                    copyData.Add(news);
-
-                    // Set Datetiem Value
-                    news.Datetime = DateTime.Today;
-                    countNews++;
-                    //Add(news);
-                    Console.WriteLine("=====================");
-                    Console.WriteLine("=====================");
-                    Thread.Sleep(3000);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("=====================");
-                Console.WriteLine("    Error:{0}", ex.Message);
-                Console.WriteLine("=====================");
-            }
-        }
-
-        private void GetVatGiaLinks(string url, int number)
-        {
-            try
-            {
-                var resultHtml = GetContent(url);
-                //using Html Agility Pack
-                var doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(resultHtml);
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Thread.Sleep(3000);
-                int countNews = 1;
-                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='name']/h2/a[@class='tooltip']"))
-                {
-                    var news = new PrivateNews();
-                    //Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    //news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    Console.WriteLine("Link: http://vatgia.com" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
-                    var subUrl = "http://vatgia.com" + link.Attributes["href"].Value.Replace("https", "http");
-                    var subResultHtml = GetContent(subUrl);
-                    var docSub = new HtmlAgilityPack.HtmlDocument();
-                    docSub.LoadHtml(subResultHtml);
-                    var titleNodes = docSub.DocumentNode.SelectNodes("//div[@class='infomation_raovat fr']/h1");
-                    if (titleNodes != null)
-                    {
-                        foreach (var node in titleNodes)
-                        {
-                            var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Title = title;
-                            Console.WriteLine("title:" + title);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get Title value");
-                    }
-
-                    // Address
-                    var addNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']/div[1]/table/tbody/tr[1]/td[2]");
-                    if (addNodes != null)
-                    {
-                        foreach (var node in addNodes)
-                        {
-                            var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Address = address;
-                            Console.WriteLine("Address:" + address);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get address value");
-                    }
-
-                    // Dien tich
-                    var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']/div[1]/table/tbody/tr[3]/td[2]");
-                    if (dtichNodes != null)
-                    {
-                        foreach (var node in dtichNodes)
-                        {
-                            var dientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-
-                            news.Dientich = dientich;
-                            Console.WriteLine("Dien tich:" + dientich);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get dien tich value");
-                    }
-                    // Price
-                    var priceNodes = docSub.DocumentNode.SelectNodes("//div[@class='box_price i']//div[@class='detail_price']//div//span[1]");
-                    if (priceNodes != null)
-                    {
-                        foreach (var node in priceNodes)
-                        {
-                            var price = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-
-                            news.Price = price;
-                            Console.WriteLine("Gia tien:" + price);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get price value");
-                    }
-                    // Phone
-                    // Place holder to get phone from cefsharp lib
-                    //var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
-                    //if (phoneNodes != null)
-                    //{
-                    //    foreach (var node in phoneNodes)
-                    //    {
-                    //        var phone = node.InnerText.Trim();
-                    //        phone = phone.Replace("&#x3", "").Replace(";", "");
-                    //        news.PhoneNumber = phone;
-                    //        Console.WriteLine("PhoneNumber:" + phone);
-                    //    }
-                    //}
-
-                    // Content
-                    var contentNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']");
-                    string contents = string.Empty;
-                    if (contentNodes != null)
-                    {
-                        foreach (var node in contentNodes)
-                        {
-                            var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").Replace("<!-- Body -->", "").TrimStart().TrimEnd();
-
-                            news.NewsContent = content;
-                            Console.WriteLine("Content:" + content);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Can't get contents value");
-                    }
-                    // Status
-                    news.Status = 2;
-                    news.Id = countNews;
-                    copyData.Add(news);
-
-                    // Set Datetiem Value
-                    news.Datetime = DateTime.Today;
-                    countNews++;
-                    //Add(news);
-                    Console.WriteLine("=====================");
-                    Console.WriteLine("=====================");
-                    Thread.Sleep(3000);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("=====================");
-                Console.WriteLine("    Error:{0}", ex.Message);
-                Console.WriteLine("=====================");
-            }
-        }
-
         private void GetRaoVatLinks(string url, int number)
         {
             try
@@ -1103,28 +1108,147 @@ namespace GetInfoWeb
             //return result;
         }
 
-        private string HexStringToString(string hexString)
+        private void GetVatGiaLinks(string url, int number)
         {
-            return string.Join("", Regex.Split(hexString, "(?<=\\G..)(?!$)").Select(x => (char)Convert.ToByte(x, 16)));
-        }
-
-        private byte[] HexToBytes(string hexValue)
-        {
-            if (hexValue == null)
-                throw new ArgumentNullException("hexString");
-            if (hexValue.Length % 2 != 0)
-                throw new ArgumentException("hexString must have an even length", "hexString");
-            var bytes = new byte[hexValue.Length / 25];
-            for (int i = 0; i < bytes.Length; i += 2)
+            try
             {
-                var index = i * 2;
-                string currentHex = hexValue.Substring(index, 5);
-                bytes[i / 2] = Convert.ToByte(currentHex);
-                index++;
-            }
-            return bytes;
-        }
+                var resultHtml = GetContent(url);
+                //using Html Agility Pack
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(resultHtml);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Bat dau doc du lieu tu trang " + number);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Thread.Sleep(3000);
+                int countNews = 1;
+                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='name']/h2/a[@class='tooltip']"))
+                {
+                    var news = new PrivateNews();
+                    //Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                    Console.WriteLine("Link: http://vatgia.com" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                    //var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
+                    var subUrl = "http://vatgia.com" + link.Attributes["href"].Value.Replace("https", "http");
+                    var subResultHtml = GetContent(subUrl);
+                    var docSub = new HtmlAgilityPack.HtmlDocument();
+                    docSub.LoadHtml(subResultHtml);
+                    var titleNodes = docSub.DocumentNode.SelectNodes("//div[@class='infomation_raovat fr']/h1");
+                    if (titleNodes != null)
+                    {
+                        foreach (var node in titleNodes)
+                        {
+                            var title = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Title = title;
+                            Console.WriteLine("title:" + title);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get Title value");
+                    }
 
+                    // Address //*[@id="container_content"]/div/div/div/div/div[1]/div[1]/div[2]/div[2]/ul/li[2]/span
+                    var addNodes = docSub.DocumentNode.SelectNodes("//*[@id='container_content']/div/div/div/div/div[1]/div[1]/div[2]/div[2]/ul/li[2]/span");
+                    if (addNodes != null)
+                    {
+                        foreach (var node in addNodes)
+                        {
+                            var address = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            news.Address = address;
+                            Console.WriteLine("Address:" + address);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get address value");
+                    }
+
+                    // Dien tich //*[@id="main_description"]/div[1]/table/tbody/tr[2]/td[2]
+                    var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']/div[1]/table/tbody/tr[3]/td[2]");
+                    if (dtichNodes != null)
+                    {
+                        foreach (var node in dtichNodes)
+                        {
+                            var dientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Dientich = dientich;
+                            Console.WriteLine("Dien tich:" + dientich);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get dien tich value");
+                    }
+                    // Price
+                    var priceNodes = docSub.DocumentNode.SelectNodes("//div[@class='box_price i']//div[@class='detail_price']//div//span[1]");
+                    if (priceNodes != null)
+                    {
+                        foreach (var node in priceNodes)
+                        {
+                            var price = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+
+                            news.Price = price;
+                            Console.WriteLine("Gia tien:" + price);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get price value");
+                    }
+                    // Phone
+                    // Place holder to get phone from cefsharp lib
+                    //var phoneNodes = docSub.DocumentNode.SelectNodes("//div[@class='cl_333 user_phone font_14 font_700']//p");
+                    //if (phoneNodes != null)
+                    //{
+                    //    foreach (var node in phoneNodes)
+                    //    {
+                    //        var phone = node.InnerText.Trim();
+                    //        phone = phone.Replace("&#x3", "").Replace(";", "");
+                    //        news.PhoneNumber = phone;
+                    //        Console.WriteLine("PhoneNumber:" + phone);
+                    //    }
+                    //}
+
+                    // Content
+                    var contentNodes = docSub.DocumentNode.SelectNodes("//*[@id='main_description']");
+                    string contents = string.Empty;
+                    if (contentNodes != null)
+                    {
+                        foreach (var node in contentNodes)
+                        {
+                            var content = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").Replace("<!-- Body -->", "").TrimStart().TrimEnd();
+
+                            news.NewsContent = content;
+                            Console.WriteLine("Content:" + content);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Can't get contents value");
+                    }
+                    // Status
+                    news.Status = 2;
+                    news.Id = countNews;
+                    copyData.Add(news);
+
+                    // Set Datetiem Value
+                    news.Datetime = DateTime.Today;
+                    countNews++;
+                    //Add(news);
+                    Console.WriteLine("=====================");
+                    Console.WriteLine("=====================");
+                    Thread.Sleep(3000);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("=====================");
+                Console.WriteLine("    Error:{0}", ex.Message);
+                Console.WriteLine("=====================");
+            }
+        }
         private void InitUrlsSource()
         {
             if (urlSource == null)
@@ -1141,14 +1265,6 @@ namespace GetInfoWeb
             }
             comboBox1.DataSource = urlSource.ToArray();
             comboBox1.DisplayMember = "Value";
-        }
-        private void RecursionNode(HtmlNode node)
-        {
-            if (node.HasChildNodes)
-            {
-                recursionNode.AppendLine(node.FirstChild.InnerText);
-                RecursionNode(node.Element(node.FirstChild.Name));
-            }
         }
 
         #endregion Private Methods

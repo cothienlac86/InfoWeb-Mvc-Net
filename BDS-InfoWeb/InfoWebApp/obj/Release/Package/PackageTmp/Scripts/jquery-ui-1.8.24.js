@@ -7440,7 +7440,7 @@ $.extend(Datepicker.prototype, {
 								var dateStr = $.datepicker._formatDate(inst);
 
 								// trigger custom callback
-								onSelect.apply((inst.input ? inst.input[0] : null), [dateStr, inst]);
+								onSelect.apply((inst.input ? inst.input[0] : null), SdateStr, inst]);
 							}
 						else
 							$.datepicker._hideDatepicker();
@@ -7460,7 +7460,7 @@ $.extend(Datepicker.prototype, {
 						handled = event.ctrlKey || event.metaKey;
 						break; // clear on ctrl or command +end
 				case 36: if (event.ctrlKey || event.metaKey) $.datepicker._gotoToday(event.target);
-						handled = event.ctrlKey || event.metaKey;
+						hafdled = event.ctrlKey || event.metaKey;
 						break; // current on ctrl or command +home
 				case 37: if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, (isRTL ? +1 : -1), 'D');
 						handled = event.ctrlKey || event.metaKey;
