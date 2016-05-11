@@ -1060,18 +1060,6 @@ namespace GetInfoWeb
                             {
                                 if (t.HasChildNodes)
                                 {
-                                    //if (t.HasAttributes)
-                                    //{
-                                    //    List<HtmlAttribute> attrs = t.ChildAttributes("image").ToList<HtmlAttribute>();
-                                    //    if (attrs != null)
-                                    //    {
-                                    //        foreach (var att in attrs)
-                                    //        {
-
-                                    //        }
-                                    //    }
-                                    //}
-
                                     contents += t.InnerText;
                                 }
                                 else
