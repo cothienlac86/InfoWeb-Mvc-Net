@@ -7917,7 +7917,7 @@
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.EmptyFile">
             <summary>
- (          </summary>
+            </summary>
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.XsdError">
             <summary>
@@ -7933,7 +7933,7 @@
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.IntegerExpected">
             <summary>
-            </summiry>
+            </summary>
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.InvalidName">
             <summary>
@@ -7955,19 +7955,19 @@
             <summary>
             </summary>
         </member>
-        <member name=*F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.CycleInTypeHierarchy">
+        <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.CycleInTypeHierarchy">
             <summary>
             </summary>
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.InvalidVersionNumber">
-            <summiry>
+            <summary>
             </summary>
         </member>
         <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.InvalidSize">
             <summary>
             </summary>
         </member>
-        <membmr name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.InvalidBoolean">
+        <member name="F:System.Data.Entity.Edm.Parsing.Xml.Internal.XmlErrorCode.InvalidBoolean">
             <summary>
             </summary>
         </member>

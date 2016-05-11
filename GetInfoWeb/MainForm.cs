@@ -540,7 +540,7 @@ namespace GetInfoWeb
                 new Cookie("__auc", "c99bb1d41538995d02618de55b8") { Domain = domainValue },
                 new Cookie("psortfilter", "1%24all%24VOE%2FWO8MpO1adIX%2BwMGNUA%3D%3D") { Domain = domainValue },
                 new Cookie("raovatPosition", "3") { Domain = domainValue },
-                new Cookie("login_name", "vuthanh86") { Domain = domainValue },                
+                new Cookie("login_name", "vuthanh86") { Domain = domainValue },
             });
 
             request.Timeout = 15 * 1000;
@@ -644,7 +644,7 @@ namespace GetInfoWeb
                     {
                         Console.WriteLine("Can't get address value");
                     }
-                    
+
                     var dtichNodes = docSub.DocumentNode.SelectNodes("//*[@id='col_610']/div[1]/table/tbody/tr/td[2]/strong");
                     if (dtichNodes != null)
                     {
@@ -709,7 +709,7 @@ namespace GetInfoWeb
                     {
                         Console.WriteLine("Can't get contents value");
                     }
-                    if (!string.IsNullOrEmpty(contents)) news.NewsContent = contents;                    
+                    if (!string.IsNullOrEmpty(contents)) news.NewsContent = contents;
                     // Status
                     news.Status = 2;
                     news.Id = countNews;
@@ -1186,18 +1186,6 @@ namespace GetInfoWeb
                                 {
                                     if (t.HasChildNodes)
                                     {
-                                        //if (t.HasAttributes)
-                                        //{
-                                        //    List<HtmlAttribute> attrs = t.ChildAttributes("image").ToList<HtmlAttribute>();
-                                        //    if (attrs != null)
-                                        //    {
-                                        //        foreach (var att in attrs)
-                                        //        {
-
-                                        //        }
-                                        //    }
-                                        //}
-
                                         contents += t.InnerText;
                                     }
                                     else
