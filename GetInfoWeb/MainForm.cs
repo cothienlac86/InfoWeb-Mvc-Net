@@ -1,7 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -17,15 +16,10 @@ namespace GetInfoWeb
 {
     public partial class MainForm : Form
     {
-        #region Private Fields
 
         private List<PrivateNews> copyData = new List<PrivateNews>();
         private string m_CopyUrl = string.Empty;
         private List<string> urlSource = null;
-
-        #endregion Private Fields
-
-        #region Public Constructors
 
         public MainForm()
         {
@@ -40,11 +34,7 @@ namespace GetInfoWeb
             //copyWorkers.RunWorkerCompleted += new RunWorkerCompletedEventHandler(copyWorkers_RunWorkerCompleted);
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
-        public static void Add(PrivateNews model)
+        private void AddNews2Db(PrivateNews model)
         {
             var connection = ConfigurationManager.ConnectionStrings["InfoWeb"].ConnectionString.ToString();
             var _conn = new SqlConnection(connection);
@@ -70,7 +60,15 @@ namespace GetInfoWeb
                 NewsContentParam.Direction = ParameterDirection.Input;
                 var StatusParam = new SqlParameter("@Status", model.Status);
                 StatusParam.Direction = ParameterDirection.Input;
-
+                // Add more PrivateNews column ... Place holder here
+                // ============= MENU ID COL ================
+                //var MenuId = new SqlParameter("@Address", model.Address);
+                // ============= TinhThanh ID COL ================
+                //var TinhThanhId = new SqlParameter("@Address", model.Address);
+                // ============= QuanHuyen ID COL ================
+                //var QuanHuyenId = new SqlParameter("@Address", model.Address);
+                // ============= Org_Price ID COL ================
+                //var Org_Price = new SqlParameter("@Address", model.Address);
                 command.Parameters.Add(TitleParam);
                 command.Parameters.Add(AddressParam);
                 command.Parameters.Add(DientichParam);
@@ -113,10 +111,6 @@ namespace GetInfoWeb
                 return "";
             }
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
 
         private static HttpWebRequest TryAddCookie(WebRequest webRequest, List<Cookie> cookie)
         {
@@ -267,98 +261,123 @@ namespace GetInfoWeb
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Thread.Sleep(1000);
                 int countIdx = 1;
-                foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='p-title']//a"))
+                // Get news by area categories         
+                int idx2Stop = 1;
+                // Get top menu level             
+                foreach (HtmlNode parentLinks in doc.DocumentNode.SelectNodes(string.Format("//*[@id='page - navigative - menu']/ul/li[{0}]",idx2Stop.ToString())))
                 {
+                    if (idx2Stop == 3) return;
                     var news = new PrivateNews();
-                    Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                    Console.WriteLine("Link:" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
-                    var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
-                    var subResultHtml = GetContent(subUrl);
-                    var docSub = new HtmlAgilityPack.HtmlDocument();
-                    docSub.LoadHtml(subResultHtml);
-                    var subNodes = docSub.DocumentNode.SelectNodes("//span[@class='gia-title mar-right-15']//strong");
-                    if (subNodes != null)
+                    // Get child menu items
+                    foreach (var childLinks in parentLinks.SelectNodes("//ul/li/a[class='haslink']"))
                     {
-                        foreach (var node in subNodes)
-                        {
-                            var titleGia = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Price = titleGia;
-                            Console.WriteLine("Gia:" + titleGia);
-                        }
-                    }
-                    var subContent = docSub.DocumentNode.SelectNodes("//div[@class='pm-content stat']");
-                    if (subContent != null)
-                    {
-                        foreach (var node in subContent)
-                        {
-                            var titleContent = node.InnerText;
-                            news.NewsContent = titleContent;
-                            Console.WriteLine("Noidung:" + titleContent);
-                        }
-                    }
-
-                    var subDientich = docSub.DocumentNode.SelectNodes("//span[@class='gia-title']//strong");
-                    if (subDientich != null)
-                    {
-                        foreach (var node in subDientich)
-                        {
-                            var titleDientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Dientich = titleDientich;
-                            Console.WriteLine("Dientich:" + titleDientich);
-                        }
-                    }
-
-
-                    var subPhone = docSub.DocumentNode.SelectNodes("//div[@id='LeftMainContent__productDetail_contactPhone']//div[@class='right']");
-                    if (subPhone != null)
-                    {
-                        if (subPhone != null)
-                        {
-                            foreach (var node in subPhone)
+                        var catUrl = "http://batdongsan.com.vn" + childLinks.Attributes["href"].Value;
+                        var catResultHtml = GetContent(catUrl);
+                        var catSub = new HtmlAgilityPack.HtmlDocument();
+                        catSub.LoadHtml(catResultHtml);
+                        // Get link in child category
+                        foreach (HtmlNode link in catSub.DocumentNode.SelectNodes("//div[@class='p-title']//a"))
+                        {                            
+                            Console.WriteLine("Tieu de: " + link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                            news.Title = link.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                            Console.WriteLine("Link:" + link.Attributes["href"].Value.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd());
+                            var subUrl = "http://batdongsan.com.vn" + link.Attributes["href"].Value;
+                            var subResultHtml = GetContent(subUrl);
+                            var docSub = new HtmlAgilityPack.HtmlDocument();
+                            docSub.LoadHtml(subResultHtml);
+                            var subNodes = docSub.DocumentNode.SelectNodes("//span[@class='gia-title mar-right-15']//strong");
+                            if (subNodes != null)
                             {
-                                var titlePhone = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                                news.PhoneNumber = titlePhone;
-                                Console.WriteLine("Phone:" + titlePhone);
+                                foreach (var node in subNodes)
+                                {
+                                    var titleGia = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                                    news.Price = titleGia;
+                                    Console.WriteLine("Gia:" + titleGia);
+                                }
                             }
-                        }
-                    }
-
-
-                    var subMobile = docSub.DocumentNode.SelectNodes("//div[@id='LeftMainContent__productDetail_contactMobile']//div[@class='right']");
-                    if (subMobile != null)
-                    {
-                        if (subMobile != null)
-                        {
-                            foreach (var node in subMobile)
+                            var subContent = docSub.DocumentNode.SelectNodes("//div[@class='pm-content stat']");
+                            if (subContent != null)
                             {
-                                var titleMobile = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                                news.PhoneNumber = titleMobile;
-                                Console.WriteLine("Mobile:" + titleMobile);
+                                foreach (var node in subContent)
+                                {
+                                    var titleContent = node.InnerText;
+                                    news.NewsContent = titleContent;
+                                    Console.WriteLine("Noidung:" + titleContent);
+                                }
                             }
-                        }
-                    }
+
+                            var subDientich = docSub.DocumentNode.SelectNodes("//span[@class='gia-title']//strong");
+                            if (subDientich != null)
+                            {
+                                foreach (var node in subDientich)
+                                {
+                                    var titleDientich = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                                    news.Dientich = titleDientich;
+                                    Console.WriteLine("Dientich:" + titleDientich);
+                                }
+                            }
 
 
-                    var subAddress = docSub.DocumentNode.SelectNodes("//div[@class='left-detail']//div[@class='right']");
-                    if (subAddress != null)
-                    {
-                        foreach (var node in subAddress)
-                        {
-                            var titleAddress = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
-                            news.Address = titleAddress;
-                            Console.WriteLine("Address:" + titleAddress);
-                            break;
+                            var subPhone = docSub.DocumentNode.SelectNodes("//div[@id='LeftMainContent__productDetail_contactPhone']//div[@class='right']");
+                            if (subPhone != null)
+                            {
+                                if (subPhone != null)
+                                {
+                                    foreach (var node in subPhone)
+                                    {
+                                        var titlePhone = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                                        news.PhoneNumber = titlePhone;
+                                        Console.WriteLine("Phone:" + titlePhone);
+                                    }
+                                }
+                            }
+
+
+                            var subMobile = docSub.DocumentNode.SelectNodes("//div[@id='LeftMainContent__productDetail_contactMobile']//div[@class='right']");
+                            if (subMobile != null)
+                            {
+                                if (subMobile != null)
+                                {
+                                    foreach (var node in subMobile)
+                                    {
+                                        var titleMobile = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                                        news.PhoneNumber = titleMobile;
+                                        Console.WriteLine("Mobile:" + titleMobile);
+                                    }
+                                }
+                            }
+
+
+                            var subAddress = docSub.DocumentNode.SelectNodes("//div[@class='left-detail']//div[@class='right']");
+                            if (subAddress != null)
+                            {
+                                foreach (var node in subAddress)
+                                {
+                                    var titleAddress = node.InnerText.Replace("\r", "").Replace("\n", "").Replace("&nbsp;", "").TrimStart().TrimEnd();
+                                    news.Address = titleAddress;
+                                    Console.WriteLine("Address:" + titleAddress);
+                                    break;
+                                }
+                            }
+
+                            // Add values for Country ID
+
+                            // Add values for District ID
+
+                            // Add values for Menu ID
+                            news.Id = countIdx;
+                            news.Datetime = DateTime.Today;
+                            //Add(news);
+                            countIdx++;
+                            Console.WriteLine("=====================");
+                            Console.WriteLine("=====================");
+                            Thread.Sleep(3000);
                         }
                     }
-                    news.Id = countIdx;
-                    news.Datetime = DateTime.Today;
-                    //Add(news);
-                    countIdx++;
-                    Console.WriteLine("=====================");
-                    Console.WriteLine("=====================");
-                    Thread.Sleep(3000);
+                    idx2Stop++;
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -1387,6 +1406,45 @@ namespace GetInfoWeb
             comboBox1.DisplayMember = "Value";
         }
 
-        #endregion Private Methods
+        private int GetMenuId4CopiedNews(string categoryName)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Error:{0}",ex.Message));
+            }
+            return 0;
+        }
+
+        private int GetCountryId4CopiedNews(string cityName)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Error:{0}", ex.Message));
+            }
+            return 0;
+        }
+
+        private int GetDistrictId4CopiedNews(string cityName)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Error:{0}", ex.Message));
+            }
+            return 0;
+        }
     }
+
+  
 }
